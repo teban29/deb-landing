@@ -1,23 +1,89 @@
+---
+import '../styles/global.css';
+import Navbar from '../components/Navbar.astro';
+import Footer from '../components/Footer.astro';
+import { getLangFromUrl, useTranslations } from '../i18n/utils';
+
+interface Props {
+	title?: string;
+	description?: string;
+	image?: string;
+}
+
+const { title, description, image } = Astro.props;
+const lang = getLangFromUrl(Astro.url);
+const t = useTranslations(lang);
+
+const siteName = 'D.E.B TOUT CORPS';
+const defaultTitle = t('meta.homeTitle');
+const defaultDesc = t('meta.homeDesc');
+const finalTitle = title ? `${title} | ${siteName}` : defaultTitle;
+const finalDesc = description || defaultDesc;
+const ogImage = image || '/og-image.jpg';
+const canonicalURL = Astro.site ? new URL(Astro.url.pathname, Astro.site) : new URL(Astro.url.pathname, 'https://deb-toutcorps.fr');
+---
+
 <!doctype html>
-<html lang="en">
+<html lang={lang}>
 	<head>
 		<meta charset="UTF-8" />
-		<meta name="viewport" content="width=device-width" />
-		<link rel="icon" type="image/svg+xml" href="/favicon.svg" />
-		<link rel="icon" href="/favicon.ico" />
+		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
 		<meta name="generator" content={Astro.generator} />
-		<title>Astro Basics</title>
+		<meta name="description" content={finalDesc} />
+		<meta name="robots" content="index, follow" />
+		
+		<!-- Open Graph -->
+		<meta property="og:type" content="website" />
+		<meta property="og:title" content={finalTitle} />
+		<meta property="og:description" content={finalDesc} />
+		<meta property="og:image" content={ogImage} />
+		<meta property="og:url" content={canonicalURL} />
+		<meta property="og:locale" content={lang === 'fr' ? 'fr_FR' : 'es_ES'} />
+		
+		<!-- Twitter -->
+		<meta name="twitter:card" content="summary_large_image" />
+		<meta name="twitter:title" content={finalTitle} />
+		<meta name="twitter:description" content={finalDesc} />
+		<meta name="twitter:image" content={ogImage} />
+		
+		<!-- Favicon -->
+		<link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+		<link rel="apple-touch-icon" href="/apple-touch-icon.png" />
+		
+		<!-- Canonical -->
+		<link rel="canonical" href={canonicalURL} />
+		
+		<!-- Alternate languages -->
+		<link rel="alternate" hreflang="fr" href={Astro.site ? new URL(Astro.url.pathname.replace(/^\/(fr|es)\//, '/fr/'), Astro.site) : new URL(Astro.url.pathname.replace(/^\/(fr|es)\//, '/fr/'), 'https://deb-toutcorps.fr')} />
+		<link rel="alternate" hreflang="es" href={Astro.site ? new URL(Astro.url.pathname.replace(/^\/(fr|es)\//, '/es/'), Astro.site) : new URL(Astro.url.pathname.replace(/^\/(fr|es)\//, '/es/'), 'https://deb-toutcorps.fr')} />
+		
+		<title>{finalTitle}</title>
+		
+		<!-- Fonts -->
+		<link rel="preconnect" href="https://fonts.googleapis.com" />
+		<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+		<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet" />
+		
+		<!-- Schema.org -->
+		<script type="application/ld+json" set:html={JSON.stringify({
+			"@context": "https://schema.org",
+			"@type": "LocalBusiness",
+			"name": "D.E.B TOUT CORPS",
+			"description": lang === 'fr' 
+				? "Entreprise de bâtiment spécialisée en rénovation complète"
+				: "Empresa de construcción especializada en reformas integrales",
+			"url": canonicalURL,
+			"areaServed": "France",
+			"serviceType": [
+				"Électricité", "Plomberie", "Carrelage", "Parquet", "Peinture", "Ponçage"
+			]
+		})} />
 	</head>
-	<body>
-		<slot />
+	<body class="min-h-screen bg-deb-cream text-deb-dark antialiased">
+		<Navbar />
+		<main>
+			<slot />
+		</main>
+		<Footer />
 	</body>
 </html>
-
-<style>
-	html,
-	body {
-		margin: 0;
-		width: 100%;
-		height: 100%;
-	}
-</style>

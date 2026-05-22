@@ -1,0 +1,71 @@
+---
+import { getLangFromUrl, useTranslations } from '../../i18n/utils';
+import SectionHeader from '../ui/SectionHeader.astro';
+
+const lang = getLangFromUrl(Astro.url);
+const t = useTranslations(lang);
+
+const points = [
+	'whyus.point1',
+	'whyus.point2',
+	'whyus.point3',
+	'whyus.point4',
+	'whyus.point5',
+];
+---
+
+<section class="py-24 lg:py-32 bg-deb-white">
+	<div class="max-w-7xl mx-auto px-6 lg:px-8">
+		<div class="grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-20 items-center">
+			<!-- Content -->
+			<div>
+				<span class="inline-block text-sm font-semibold tracking-widest uppercase text-deb-gold mb-4">
+					{t('whyus.eyebrow')}
+				</span>
+				<h2 class="text-3xl sm:text-4xl lg:text-5xl font-semibold text-deb-dark tracking-tight mb-6">
+					{t('whyus.title')}
+				</h2>
+				<p class="text-lg text-deb-gray leading-relaxed mb-10">
+					{t('whyus.desc')}
+				</p>
+				
+				<ul class="space-y-4">
+					{points.map((point) => (
+						<li class="flex items-start gap-4">
+							<div class="w-6 h-6 rounded-full bg-deb-gold/10 flex items-center justify-center flex-shrink-0 mt-0.5">
+								<svg class="w-4 h-4 text-deb-gold" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+									<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/>
+								</svg>
+							</div>
+							<span class="text-deb-dark font-medium">{t(point as keyof typeof import('../../i18n/ui').ui[typeof import('../../i18n/ui').defaultLang])}</span>
+						</li>
+					))}
+				</ul>
+			</div>
+			
+			<!-- Image/Visual -->
+			<div class="relative">
+				<div class="aspect-[4/5] rounded-2xl bg-deb-gray/10 overflow-hidden">
+					<div class="absolute inset-0 bg-gradient-to-br from-deb-gold/20 to-deb-dark/10" />
+					<div class="absolute inset-0 flex items-center justify-center">
+						<div class="text-center p-8">
+							<div class="w-24 h-24 mx-auto mb-6 rounded-full bg-deb-gold/20 flex items-center justify-center">
+								<svg class="w-12 h-12 text-deb-gold" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+									<path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"/>
+								</svg>
+							</div>
+							<p class="text-deb-dark font-semibold text-lg">15+</p>
+							<p class="text-deb-gray text-sm">
+								{lang === 'fr' ? 'Années d\'expertise' : 'Años de experiencia'}
+							</p>
+						</div>
+					</div>
+				</div>
+				
+				<!-- Decorative element -->
+				<div class="absolute -bottom-6 -right-6 w-32 h-32 bg-deb-gold/10 rounded-2xl -z-10" />
+				<div class="absolute -top-6 -left-6 w-24 h-24 bg-deb-dark/5 rounded-2xl -z-10" />
+			</div>
+		</div>
+	</div>
+</section>

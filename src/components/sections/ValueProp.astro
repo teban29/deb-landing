@@ -1,0 +1,45 @@
+---
+import { getLangFromUrl, useTranslations } from '../../i18n/utils';
+
+const lang = getLangFromUrl(Astro.url);
+const t = useTranslations(lang);
+---
+
+<section class="py-24 lg:py-32 bg-deb-cream">
+	<div class="max-w-7xl mx-auto px-6 lg:px-8">
+		<div class="grid grid-cols-1 md:grid-cols-3 gap-8 lg:gap-12">
+			<!-- Card 1 -->
+			<div class="bg-deb-white rounded-2xl p-8 lg:p-10 border border-deb-light-gray/50 hover:shadow-lg transition-all duration-500 hover:-translate-y-1 group">
+				<div class="w-14 h-14 rounded-xl bg-deb-gold/10 flex items-center justify-center mb-6 group-hover:bg-deb-gold/20 transition-colors duration-300">
+					<svg class="w-7 h-7 text-deb-gold" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+						<path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z"/>
+					</svg>
+				</div>
+				<h3 class="text-xl font-semibold text-deb-dark mb-3">{t('vp.card1.title')}</h3>
+				<p class="text-deb-gray leading-relaxed">{t('vp.card1.desc')}</p>
+			</div>
+			
+			<!-- Card 2 -->
+			<div class="bg-deb-white rounded-2xl p-8 lg:p-10 border border-deb-light-gray/50 hover:shadow-lg transition-all duration-500 hover:-translate-y-1 group">
+				<div class="w-14 h-14 rounded-xl bg-deb-gold/10 flex items-center justify-center mb-6 group-hover:bg-deb-gold/20 transition-colors duration-300">
+					<svg class="w-7 h-7 text-deb-gold" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+						<path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M20 7l-8-4-8 4m16 0l-8 4m8-4v10l-8 4m0-10L4 7m8 4v10M12 21l-8-4"/>
+					</svg>
+				</div>
+				<h3 class="text-xl font-semibold text-deb-dark mb-3">{t('vp.card2.title')}</h3>
+				<p class="text-deb-gray leading-relaxed">{t('vp.card2.desc')}</p>
+			</div>
+			
+			<!-- Card 3 -->
+			<div class="bg-deb-white rounded-2xl p-8 lg:p-10 border border-deb-light-gray/50 hover:shadow-lg transition-all duration-500 hover:-translate-y-1 group">
+				<div class="w-14 h-14 rounded-xl bg-deb-gold/10 flex items-center justify-center mb-6 group-hover:bg-deb-gold/20 transition-colors duration-300">
+					<svg class="w-7 h-7 text-deb-gold" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+						<path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M15 7a2 2 0 012 2m4 0a6 6 0 01-7.743 5.743L11 17H9v2H7v2H4a1 1 0 01-1-1v-2.586a1 1 0 01.293-.707l5.964-5.964A6 6 0 1121 9z"/>
+					</svg>
+				</div>
+				<h3 class="text-xl font-semibold text-deb-dark mb-3">{t('vp.card3.title')}</h3>
+				<p class="text-deb-gray leading-relaxed">{t('vp.card3.desc')}</p>
+			</div>
+		</div>
+	</div>
+</section>

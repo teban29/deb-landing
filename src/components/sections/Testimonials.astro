@@ -1,0 +1,52 @@
+---
+import { getLangFromUrl, useTranslations } from '../../i18n/utils';
+import SectionHeader from '../ui/SectionHeader.astro';
+
+const lang = getLangFromUrl(Astro.url);
+const t = useTranslations(lang);
+
+const testimonials = [
+	{ textKey: 'testimonial.1.text', authorKey: 'testimonial.1.author', roleKey: 'testimonial.1.role' },
+	{ textKey: 'testimonial.2.text', authorKey: 'testimonial.2.author', roleKey: 'testimonial.2.role' },
+	{ textKey: 'testimonial.3.text', authorKey: 'testimonial.3.author', roleKey: 'testimonial.3.role' },
+];
+---
+
+<section class="py-24 lg:py-32 bg-deb-white">
+	<div class="max-w-7xl mx-auto px-6 lg:px-8">
+		<SectionHeader
+			eyebrow={t('testimonials.eyebrow')}
+			title={t('testimonials.title')}
+		/>
+		
+		<div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
+			{testimonials.map((testimonial) => (
+				<div class="bg-deb-cream rounded-2xl p-8 border border-deb-light-gray/50">
+					<div class="mb-6">
+						<svg class="w-10 h-10 text-deb-gold/40" fill="currentColor" viewBox="0 0 24 24">
+							<path d="M14.017 21v-7.391c0-5.704 3.731-9.57 8.983-10.609l.995 2.151c-2.432.917-3.995 3.638-3.995 5.849h4v10h-9.983zm-14.017 0v-7.391c0-5.704 3.748-9.57 9-10.609l.996 2.151c-2.433.917-3.996 3.638-3.996 5.849h3.983v10h-9.983z"/>
+						</svg>
+					</div>
+					<p class="text-deb-dark leading-relaxed mb-8">
+						{t(testimonial.textKey as keyof typeof import('../../i18n/ui').ui[typeof import('../../i18n/ui').defaultLang])}
+					</p>
+					<div class="flex items-center gap-4">
+						<div class="w-12 h-12 rounded-full bg-deb-gold/20 flex items-center justify-center">
+							<span class="text-deb-gold font-semibold text-sm">
+								{t(testimonial.authorKey as keyof typeof import('../../i18n/ui').ui[typeof import('../../i18n/ui').defaultLang]).charAt(0)}
+							</span>
+						</div>
+						<div>
+							<p class="font-semibold text-deb-dark text-sm">
+								{t(testimonial.authorKey as keyof typeof import('../../i18n/ui').ui[typeof import('../../i18n/ui').defaultLang])}
+							</p>
+							<p class="text-deb-gray text-xs">
+								{t(testimonial.roleKey as keyof typeof import('../../i18n/ui').ui[typeof import('../../i18n/ui').defaultLang])}
+							</p>
+						</div>
+					</div>
+				</div>
+			))}
+		</div>
+	</div>
+</section>

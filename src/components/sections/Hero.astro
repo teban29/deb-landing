@@ -1,0 +1,60 @@
+---
+import { getLangFromUrl, useTranslations } from '../../i18n/utils';
+
+const lang = getLangFromUrl(Astro.url);
+const t = useTranslations(lang);
+---
+
+<section class="relative min-h-screen flex items-center overflow-hidden bg-deb-dark">
+	<!-- Background image with overlay -->
+	<div class="absolute inset-0">
+		<div class="absolute inset-0 bg-gradient-to-r from-deb-dark/95 via-deb-dark/80 to-deb-dark/60 z-10" />
+		<img 
+			src="/images/hero-bg.jpg" 
+			alt="Construction and renovation" 
+			class="w-full h-full object-cover"
+			loading="eager"
+		/>
+	</div>
+	
+	<div class="relative z-20 max-w-7xl mx-auto px-6 lg:px-8 py-32 lg:py-40">
+		<div class="max-w-3xl">
+			<span class="inline-block px-4 py-2 bg-deb-gold/10 border border-deb-gold/20 rounded-full text-deb-gold text-sm font-medium tracking-wider uppercase mb-8 animate-fade-up" style="animation-delay: 0.1s">
+				{t('hero.eyebrow')}
+			</span>
+			
+			<h1 class="text-4xl sm:text-5xl lg:text-7xl font-semibold text-deb-white leading-[1.1] mb-8 animate-fade-up" style="animation-delay: 0.2s">
+				{t('hero.title')}
+			</h1>
+			
+			<p class="text-lg sm:text-xl text-deb-white/70 leading-relaxed mb-10 max-w-2xl animate-fade-up" style="animation-delay: 0.3s">
+				{t('hero.subtitle')}
+			</p>
+			
+			<div class="flex flex-col sm:flex-row gap-4 animate-fade-up" style="animation-delay: 0.4s">
+				<a 
+					href={`/${lang}/services`}
+					class="inline-flex items-center justify-center px-8 py-4 bg-deb-gold text-deb-dark font-semibold rounded-lg hover:bg-deb-gold/90 transition-all duration-300 hover:shadow-lg hover:-translate-y-0.5"
+				>
+					{t('hero.cta.primary')}
+					<svg class="w-5 h-5 ml-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+						<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 8l4 4m0 0l-4 4m4-4H3"/>
+					</svg>
+				</a>
+				<a 
+					href={`/${lang}/contact`}
+					class="inline-flex items-center justify-center px-8 py-4 border-2 border-deb-white/30 text-deb-white font-semibold rounded-lg hover:bg-deb-white/10 hover:border-deb-white/50 transition-all duration-300"
+				>
+					{t('hero.cta.secondary')}
+				</a>
+			</div>
+		</div>
+	</div>
+	
+	<!-- Scroll indicator -->
+	<div class="absolute bottom-8 left-1/2 -translate-x-1/2 z-20 animate-bounce">
+		<svg class="w-6 h-6 text-deb-white/50" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+			<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 14l-7 7m0 0l-7-7m7 7V3"/>
+		</svg>
+	</div>
+</section>

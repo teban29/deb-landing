@@ -1,0 +1,150 @@
+---
+import LanguagePicker from './ui/LanguagePicker.astro';
+import { getLangFromUrl, useTranslations } from '../i18n/utils';
+
+const lang = getLangFromUrl(Astro.url);
+const t = useTranslations(lang);
+
+const navLinks = [
+	{ href: `/${lang}/`, label: t('nav.home') },
+	{ href: `/${lang}/services`, label: t('nav.services') },
+	{ href: `/${lang}/about`, label: t('nav.about') },
+	{ href: `/${lang}/gallery`, label: t('nav.gallery') },
+	{ href: `/${lang}/contact`, label: t('nav.contact') },
+];
+---
+
+<header 
+	class="fixed top-0 left-0 right-0 z-50 transition-all duration-500"
+	id="navbar"
+>
+	<div class="max-w-7xl mx-auto px-6 lg:px-8">
+		<nav class="flex items-center justify-between h-20 lg:h-24" aria-label="Main navigation">
+			<!-- Logo -->
+			<a href={`/${lang}/`} class="flex items-center gap-3 group" aria-label="D.E.B TOUT CORPS - Home">
+				<div class="relative h-12 lg:h-14 w-auto overflow-hidden rounded-lg bg-white transition-transform duration-300 group-hover:scale-105">
+					<img 
+						src="/images/logo-deb.jpeg" 
+						alt="D.E.B TOUT CORPS" 
+						class="h-full w-auto object-contain"
+						width="200"
+						height="56"
+					/>
+				</div>
+			</a>
+			
+			<!-- Desktop Navigation -->
+			<div class="hidden lg:flex items-center gap-1">
+				{navLinks.map((link) => (
+					<a 
+						href={link.href}
+						class="relative px-4 py-2 text-sm font-medium text-deb-dark/80 hover:text-deb-dark transition-colors duration-300 group"
+						aria-current={Astro.url.pathname === link.href ? 'page' : undefined}
+					>
+						{link.label}
+						<span class="absolute bottom-0 left-4 right-4 h-0.5 bg-deb-gold scale-x-0 group-hover:scale-x-100 transition-transform duration-300 origin-left rounded-full" />
+					</a>
+				))}
+			</div>
+			
+			<!-- Right side -->
+			<div class="flex items-center gap-4">
+				<LanguagePicker />
+				
+				<a 
+					href={`/${lang}/contact`}
+					class="hidden sm:inline-flex items-center px-5 py-2.5 bg-deb-dark text-deb-white text-sm font-medium rounded-lg hover:bg-deb-gray transition-all duration-300 hover:shadow-lg hover:-translate-y-0.5"
+				>
+					{t('nav.getQuote')}
+				</a>
+				
+				<!-- Mobile menu button -->
+				<button 
+					id="mobile-menu-button"
+					class="lg:hidden p-2 rounded-lg hover:bg-deb-dark/5 transition-colors duration-200"
+					aria-label="Toggle menu"
+					aria-expanded="false"
+					aria-controls="mobile-menu"
+				>
+					<svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+						<path class="menu-icon-open" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16" />
+						<path class="menu-icon-close hidden" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
+					</svg>
+				</button>
+			</div>
+		</nav>
+	</div>
+	
+	<!-- Mobile Menu -->
+	<div 
+		id="mobile-menu"
+		class="lg:hidden fixed inset-x-0 top-20 bg-deb-white/95 backdrop-blur-xl border-b border-deb-light-gray transform -translate-y-full transition-transform duration-500 opacity-0 invisible"
+		role="dialog"
+		aria-label="Mobile navigation"
+	>
+		<div class="max-w-7xl mx-auto px-6 py-8 space-y-2">
+			{navLinks.map((link) => (
+				<a 
+					href={link.href}
+					class="block px-4 py-3 text-lg font-medium text-deb-dark hover:text-deb-gold hover:bg-deb-cream rounded-lg transition-colors duration-200"
+				>
+					{link.label}
+				</a>
+			))}
+			<div class="pt-4 border-t border-deb-light-gray">
+				<a 
+					href={`/${lang}/contact`}
+					class="block w-full text-center px-5 py-3 bg-deb-dark text-deb-white font-medium rounded-lg hover:bg-deb-gray transition-colors duration-200"
+				>
+					{t('nav.getQuote')}
+				</a>
+			</div>
+		</div>
+	</div>
+</header>
+
+<script>
+	// Navbar scroll effect
+	const navbar = document.getElementById('navbar');
+	let lastScroll = 0;
+	
+	function updateNavbar() {
+		const currentScroll = window.scrollY;
+		
+		if (currentScroll > 50) {
+			navbar?.classList.add('bg-deb-white/90', 'backdrop-blur-xl', 'shadow-sm');
+			navbar?.classList.remove('bg-transparent');
+		} else {
+			navbar?.classList.remove('bg-deb-white/90', 'backdrop-blur-xl', 'shadow-sm');
+			navbar?.classList.add('bg-transparent');
+		}
+		
+		lastScroll = currentScroll;
+	}
+	
+	window.addEventListener('scroll', updateNavbar, { passive: true });
+	updateNavbar();
+	
+	// Mobile menu toggle
+	const menuButton = document.getElementById('mobile-menu-button');
+	const mobileMenu = document.getElementById('mobile-menu');
+	const menuIconOpen = document.querySelector('.menu-icon-open');
+	const menuIconClose = document.querySelector('.menu-icon-close');
+	
+	menuButton?.addEventListener('click', () => {
+		const isExpanded = menuButton.getAttribute('aria-expanded') === 'true';
+		menuButton.setAttribute('aria-expanded', (!isExpanded).toString());
+		
+		if (isExpanded) {
+			mobileMenu?.classList.add('-translate-y-full', 'opacity-0', 'invisible');
+			mobileMenu?.classList.remove('translate-y-0', 'opacity-100', 'visible');
+			menuIconOpen?.classList.remove('hidden');
+			menuIconClose?.classList.add('hidden');
+		} else {
+			mobileMenu?.classList.remove('-translate-y-full', 'opacity-0', 'invisible');
+			mobileMenu?.classList.add('translate-y-0', 'opacity-100', 'visible');
+			menuIconOpen?.classList.add('hidden');
+			menuIconClose?.classList.remove('hidden');
+		}
+	});
+</script>

@@ -1,0 +1,45 @@
+---
+import { getLangFromUrl, useTranslations } from '../../i18n/utils';
+import ServiceCard from '../ui/ServiceCard.astro';
+import SectionHeader from '../ui/SectionHeader.astro';
+
+const lang = getLangFromUrl(Astro.url);
+const t = useTranslations(lang);
+
+const services = [
+	{ id: 'electricite', icon: 'electricite' },
+	{ id: 'plomberie', icon: 'plomberie' },
+	{ id: 'carrelage', icon: 'carrelage' },
+	{ id: 'parquet', icon: 'parquet' },
+	{ id: 'peinture', icon: 'peinture' },
+	{ id: 'poncage', icon: 'poncage' },
+];
+---
+
+<section class="py-24 lg:py-32 bg-deb-white">
+	<div class="max-w-7xl mx-auto px-6 lg:px-8">
+		<SectionHeader
+			eyebrow={t('services.eyebrow')}
+			title={t('services.title')}
+			description={t('services.desc')}
+		/>
+		
+		<div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 lg:gap-8">
+			{services.map((service) => (
+				<ServiceCard service={service.id} icon={service.icon} />
+			))}
+		</div>
+		
+		<div class="text-center mt-12">
+			<a 
+				href={`/${lang}/services`}
+				class="inline-flex items-center px-8 py-4 bg-deb-dark text-deb-white font-medium rounded-lg hover:bg-deb-gray transition-all duration-300 hover:shadow-lg hover:-translate-y-0.5"
+			>
+				{t('services.cta')}
+				<svg class="w-5 h-5 ml-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+					<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 8l4 4m0 0l-4 4m4-4H3"/>
+				</svg>
+			</a>
+		</div>
+	</div>
+</section>

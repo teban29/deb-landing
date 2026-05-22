@@ -1,0 +1,42 @@
+---
+import { getLangFromUrl, useTranslations } from '../../i18n/utils';
+
+interface Props {
+	service: string;
+	icon: string;
+}
+
+const { service, icon } = Astro.props;
+const lang = getLangFromUrl(Astro.url);
+const t = useTranslations(lang);
+
+const icons: Record<string, string> = {
+	electricite: '<path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M13 10V3L4 14h7v7l9-11h-7z"/>',
+	plomberie: '<path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M19.428 15.428a2 2 0 00-1.022-.547l-2.387-.477a6 6 0 00-3.86.517l-.318.158a6 6 0 01-3.86.517L6.05 15.21a2 2 0 00-1.806.547M8 4h8l-1 1v5.172a2 2 0 00.586 1.414l5 5c1.26 1.26.367 3.414-1.415 3.414H4.828c-1.782 0-2.674-2.154-1.414-3.414l5-5A2 2 0 009 10.172V5L8 4z"/>',
+	carrelage: '<path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M4 6a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2H6a2 2 0 01-2-2V6zM14 6a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2V6zM4 16a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2H6a2 2 0 01-2-2v-2zM14 16a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2v-2z"/>',
+	parquet: '<path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M4 6h16M4 10h16M4 14h16M4 18h16"/>',
+	peinture: '<path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M7 21a4 4 0 01-4-4V5a2 2 0 012-2h4a2 2 0 012 2v12a4 4 0 01-4 4zm0 0h12a2 2 0 002-2v-4a2 2 0 00-2-2h-2.343M11 7.343l1.657-1.657a2 2 0 012.828 0l2.829 2.829a2 2 0 010 2.828l-8.486 8.485M7 17h.01"/>',
+	poncage: '<path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M14.121 14.121L19 19m-7-7l7-7m-7 7l-2.879 2.879M12 12L9.121 9.121m0 5.758a3 3 0 10-4.243 4.243 3 3 0 004.243-4.243zm8.486-1.414a3 3 0 10-4.243-4.243 3 3 0 004.243 4.243z"/>'
+};
+---
+
+<a 
+	href={`/${lang}/services/${service}`}
+	class="group relative bg-deb-white rounded-2xl p-8 border border-deb-light-gray/50 hover:border-deb-gold/30 transition-all duration-500 hover:shadow-xl hover:-translate-y-1"
+>
+	<div class="w-14 h-14 rounded-xl bg-deb-cream flex items-center justify-center mb-6 group-hover:bg-deb-gold/10 transition-colors duration-300">
+		<svg class="w-7 h-7 text-deb-dark group-hover:text-deb-gold transition-colors duration-300" fill="none" stroke="currentColor" viewBox="0 0 24 24" set:html={icons[service]} />
+	</div>
+	<h3 class="text-xl font-semibold text-deb-dark mb-3 group-hover:text-deb-gold transition-colors duration-300">
+		{t(`service.${service}` as keyof typeof import('../../i18n/ui').ui[typeof import('../../i18n/ui').defaultLang])}
+	</h3>
+	<p class="text-deb-gray text-sm leading-relaxed mb-4">
+		{t(`service.${service}.desc` as keyof typeof import('../../i18n/ui').ui[typeof import('../../i18n/ui').defaultLang])}
+	</p>
+	<span class="inline-flex items-center text-sm font-medium text-deb-dark group-hover:text-deb-gold transition-colors duration-300">
+		{t('service.learnMore')}
+		<svg class="w-4 h-4 ml-2 transform group-hover:translate-x-1 transition-transform duration-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+			<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 8l4 4m0 0l-4 4m4-4H3"/>
+		</svg>
+	</span>
+</a>

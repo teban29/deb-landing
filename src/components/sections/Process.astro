@@ -1,0 +1,46 @@
+---
+import { getLangFromUrl, useTranslations } from '../../i18n/utils';
+import SectionHeader from '../ui/SectionHeader.astro';
+
+const lang = getLangFromUrl(Astro.url);
+const t = useTranslations(lang);
+
+const steps = [
+	{ num: '01', titleKey: 'process.step1', descKey: 'process.step1.desc' },
+	{ num: '02', titleKey: 'process.step2', descKey: 'process.step2.desc' },
+	{ num: '03', titleKey: 'process.step3', descKey: 'process.step3.desc' },
+	{ num: '04', titleKey: 'process.step4', descKey: 'process.step4.desc' },
+];
+---
+
+<section class="py-24 lg:py-32 bg-deb-cream">
+	<div class="max-w-7xl mx-auto px-6 lg:px-8">
+		<SectionHeader
+			eyebrow={t('process.eyebrow')}
+			title={t('process.title')}
+		/>
+		
+		<div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8 lg:gap-6">
+			{steps.map((step, index) => (
+				<div class="relative group">
+					<div class="bg-deb-white rounded-2xl p-8 border border-deb-light-gray/50 h-full hover:shadow-lg transition-all duration-500 hover:-translate-y-1">
+						<span class="text-5xl font-bold text-deb-gold/20 group-hover:text-deb-gold/30 transition-colors duration-300">
+							{step.num}
+						</span>
+						<h3 class="text-xl font-semibold text-deb-dark mt-4 mb-3">
+							{t(step.titleKey as keyof typeof import('../../i18n/ui').ui[typeof import('../../i18n/ui').defaultLang])}
+						</h3>
+						<p class="text-deb-gray text-sm leading-relaxed">
+							{t(step.descKey as keyof typeof import('../../i18n/ui').ui[typeof import('../../i18n/ui').defaultLang])}
+						</p>
+					</div>
+					
+					{/* Connector line */}
+					{index < steps.length - 1 && (
+						<div class="hidden lg:block absolute top-1/2 -right-3 w-6 h-px bg-deb-gold/30" />
+					)}
+				</div>
+			))}
+		</div>
+	</div>
+</section>

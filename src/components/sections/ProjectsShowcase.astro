@@ -1,0 +1,61 @@
+---
+import { getLangFromUrl, useTranslations } from '../../i18n/utils';
+import SectionHeader from '../ui/SectionHeader.astro';
+
+const lang = getLangFromUrl(Astro.url);
+const t = useTranslations(lang);
+
+const projects = [
+	{ id: 1, service: 'peinture', title: lang === 'fr' ? 'Rénovation complète salon' : 'Reforma integral salón' },
+	{ id: 2, service: 'parquet', title: lang === 'fr' ? 'Pose parquet chêne massif' : 'Colocación parquet roble macizo' },
+	{ id: 3, service: 'carrelage', title: lang === 'fr' ? 'Salle de bain moderne' : 'Baño moderno' },
+	{ id: 4, service: 'electricite', title: lang === 'fr' ? 'Mise aux normes complète' : 'Puesta a norma completa' },
+];
+---
+
+<section class="py-24 lg:py-32 bg-deb-cream">
+	<div class="max-w-7xl mx-auto px-6 lg:px-8">
+		<SectionHeader
+			eyebrow={t('projects.eyebrow')}
+			title={t('projects.title')}
+			description={t('projects.desc')}
+		/>
+		
+		<div class="grid grid-cols-1 md:grid-cols-2 gap-6 lg:gap-8">
+			{projects.map((project) => (
+				<a 
+					href={`/${lang}/gallery`}
+					class="group relative aspect-[4/3] rounded-2xl overflow-hidden bg-deb-gray"
+				>
+					<div class="absolute inset-0 bg-deb-dark/50 group-hover:bg-deb-dark/40 transition-colors duration-500 z-10" />
+					<div class="absolute inset-0 flex items-center justify-center z-20">
+						<div class="text-center p-6">
+							<span class="inline-block px-3 py-1 bg-deb-gold/90 text-deb-dark text-xs font-semibold rounded-full mb-4 uppercase tracking-wider">
+								{t(`service.${project.service}`)}
+							</span>
+							<h3 class="text-xl lg:text-2xl font-semibold text-deb-white mb-2">{project.title}</h3>
+							<span class="inline-flex items-center text-deb-gold text-sm font-medium opacity-0 group-hover:opacity-100 transform translate-y-2 group-hover:translate-y-0 transition-all duration-300">
+								{lang === 'fr' ? 'Voir le projet' : 'Ver proyecto'}
+								<svg class="w-4 h-4 ml-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+									<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 8l4 4m0 0l-4 4m4-4H3"/>
+								</svg>
+							</span>
+						</div>
+					</div>
+				</a>
+			))}
+		</div>
+		
+		<div class="text-center mt-12">
+			<a 
+				href={`/${lang}/gallery`}
+				class="inline-flex items-center text-deb-dark font-medium hover:text-deb-gold transition-colors duration-300"
+			>
+				{t('projects.cta')}
+				<svg class="w-5 h-5 ml-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+					<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 8l4 4m0 0l-4 4m4-4H3"/>
+				</svg>
+			</a>
+		</div>
+	</div>
+</section>

@@ -1,0 +1,160 @@
+---
+import Layout from '../../../layouts/Layout.astro';
+import { getLangFromUrl, useTranslations } from '../../../i18n/utils';
+import CTABanner from '../../../components/sections/CTABanner.astro';
+
+const lang = getLangFromUrl(Astro.url);
+const t = useTranslations(lang);
+
+const serviceDetails: Record<string, any> = {
+	electricite: {
+		icon: '<path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M13 10V3L4 14h7v7l9-11h-7z"/>',
+		process: ['Diagnostic complet', 'Étude et devis', 'Installation aux normes', 'Tests et validation'],
+		benefits: ['Conformité NFC 15-100', 'Matériel certifié', 'Garantie décennale', 'Intervention urgente 24/7'],
+	},
+	plomberie: {
+		icon: '<path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M19.428 15.428a2 2 0 00-1.022-.547l-2.387-.477a6 6 0 00-3.86.517l-.318.158a6 6 0 01-3.86.517L6.05 15.21a2 2 0 00-1.806.547M8 4h8l-1 1v5.172a2 2 0 00.586 1.414l5 5c1.26 1.26.367 3.414-1.415 3.414H4.828c-1.782 0-2.674-2.154-1.414-3.414l5-5A2 2 0 009 10.172V5L8 4z"/>',
+		process: ['Inspection complète', 'Plan d\'intervention', 'Travaux et remplacement', 'Tests d\'étanchéité'],
+		benefits: ['Installation normée', 'Matériel premium', 'Dépannage express', 'Garantie pièces et main d\'œuvre'],
+	},
+	carrelage: {
+		icon: '<path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M4 6a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2H6a2 2 0 01-2-2V6zM14 6a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2V6zM4 16a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2H6a2 2 0 01-2-2v-2zM14 16a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2v-2z"/>',
+		process: ['Mesures précises', 'Préparation du support', 'Pose et coupe', 'Finition et jointoiement'],
+		benefits: ['Pose garantie 10 ans', 'Large choix de matériaux', 'Découpe sur mesure', 'Conseil design inclus'],
+	},
+	parquet: {
+		icon: '<path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M4 6h16M4 10h16M4 14h16M4 18h16"/>',
+		process: ['Évaluation de l\'existant', 'Préparation du support', 'Pose ou rénovation', 'Finition et vitrification'],
+		benefits: ['Bois certifié PEFC', 'Pose flottante ou collée', 'Vitrification écologique', 'Entretien conseillé'],
+	},
+	peinture: {
+		icon: '<path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M7 21a4 4 0 01-4-4V5a2 2 0 012-2h4a2 2 0 012 2v12a4 4 0 01-4 4zm0 0h12a2 2 0 002-2v-4a2 2 0 00-2-2h-2.343M11 7.343l1.657-1.657a2 2 0 012.828 0l2.829 2.829a2 2 0 010 2.828l-8.486 8.485M7 17h.01"/>',
+		process: ['Préparation des surfaces', 'Protection et masquage', 'Application et finitions', 'Nettoyage et remise en état'],
+		benefits: ['Peintures sans COV', 'Large gamme de couleurs', 'Finitions personnalisables', 'Garantie anti-écaillage'],
+	},
+	poncage: {
+		icon: '<path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M14.121 14.121L19 19m-7-7l7-7m-7 7l-2.879 2.879M12 12L9.121 9.121m0 5.758a3 3 0 10-4.243 4.243 3 3 0 004.243-4.243zm8.486-1.414a3 3 0 10-4.243-4.243 3 3 0 004.243 4.243z"/>',
+		process: ['Évaluation de l\'état', 'Ponçage professionnel', 'Réparations si besoin', 'Protection finale'],
+		benefits: ['Équipement industriel', 'Récupération de poussière', 'Résultat lisse et uniforme', 'Préparation peinture incluse'],
+	},
+};
+
+export function getStaticPaths() {
+	return [
+		{ params: { lang: 'fr', service: 'electricite' } },
+		{ params: { lang: 'fr', service: 'plomberie' } },
+		{ params: { lang: 'fr', service: 'carrelage' } },
+		{ params: { lang: 'fr', service: 'parquet' } },
+		{ params: { lang: 'fr', service: 'peinture' } },
+		{ params: { lang: 'fr', service: 'poncage' } },
+		{ params: { lang: 'es', service: 'electricite' } },
+		{ params: { lang: 'es', service: 'plomberie' } },
+		{ params: { lang: 'es', service: 'carrelage' } },
+		{ params: { lang: 'es', service: 'parquet' } },
+		{ params: { lang: 'es', service: 'peinture' } },
+		{ params: { lang: 'es', service: 'poncage' } },
+	];
+}
+
+const { service } = Astro.params;
+const detail = serviceDetails[service as string] || serviceDetails.electricite;
+---
+
+<Layout title={t(`service.${service}` as keyof typeof import('../../../i18n/ui').ui[typeof import('../../../i18n/ui').defaultLang])}>
+	<!-- Hero -->
+	<section class="relative py-32 lg:py-40 bg-deb-dark overflow-hidden">
+		<div class="absolute inset-0 bg-gradient-to-br from-deb-dark via-deb-gray to-deb-dark" />
+		<div class="relative z-10 max-w-7xl mx-auto px-6 lg:px-8">
+			<div class="flex items-center gap-3 mb-6">
+				<a href={`/${lang}/services`} class="text-deb-white/60 hover:text-deb-gold transition-colors text-sm">
+					← {t('nav.services')}
+				</a>
+			</div>
+			<div class="flex items-start gap-6">
+				<div class="w-20 h-20 rounded-2xl bg-deb-gold/10 flex items-center justify-center flex-shrink-0">
+					<svg class="w-10 h-10 text-deb-gold" fill="none" stroke="currentColor" viewBox="0 0 24 24" set:html={detail.icon} />
+				</div>
+				<div>
+					<h1 class="text-4xl sm:text-5xl lg:text-6xl font-semibold text-deb-white tracking-tight">
+						{t(`service.${service}` as keyof typeof import('../../../i18n/ui').ui[typeof import('../../../i18n/ui').defaultLang])}
+					</h1>
+					<p class="text-lg text-deb-white/60 mt-4 max-w-2xl">
+						{t(`service.${service}.desc` as keyof typeof import('../../../i18n/ui').ui[typeof import('../../../i18n/ui').defaultLang])}
+					</p>
+				</div>
+			</div>
+		</div>
+	</section>
+	
+	<!-- Process -->
+	<section class="py-24 lg:py-32 bg-deb-cream">
+		<div class="max-w-7xl mx-auto px-6 lg:px-8">
+			<div class="text-center mb-16">
+				<span class="inline-block text-sm font-semibold tracking-widest uppercase text-deb-gold mb-4">
+					{t('serviceDetail.process')}
+				</span>
+				<h2 class="text-3xl sm:text-4xl font-semibold text-deb-dark tracking-tight">
+					{t('serviceDetail.process')}
+					</h2>
+			</div>
+			
+			<div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
+				{detail.process.map((step: string, index: number) => (
+					<div class="relative">
+						<div class="bg-deb-white rounded-2xl p-8 border border-deb-light-gray/50 h-full">
+							<span class="text-5xl font-bold text-deb-gold/20">
+								0{index + 1}
+							</span>
+							<h3 class="text-lg font-semibold text-deb-dark mt-4">{step}</h3>
+						</div>
+					</div>
+				))}
+			</div>
+		</div>
+	</section>
+	
+	<!-- Benefits -->
+	<section class="py-24 lg:py-32 bg-deb-white">
+		<div class="max-w-7xl mx-auto px-6 lg:px-8">
+			<div class="text-center mb-16">
+				<span class="inline-block text-sm font-semibold tracking-widest uppercase text-deb-gold mb-4">
+					{t('serviceDetail.benefits')}
+				</span>
+				<h2 class="text-3xl sm:text-4xl font-semibold text-deb-dark tracking-tight">
+					{t('serviceDetail.benefits')}
+					</h2>
+			</div>
+			
+			<div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+				{detail.benefits.map((benefit: string) => (
+					<div class="flex items-start gap-4 bg-deb-cream rounded-2xl p-6">
+						<div class="w-10 h-10 rounded-full bg-deb-gold/10 flex items-center justify-center flex-shrink-0">
+							<svg class="w-5 h-5 text-deb-gold" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+								<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/>
+							</svg>
+						</div>
+						<p class="text-deb-dark font-medium">{benefit}</p>
+					</div>
+				))}
+			</div>
+		</div>
+	</section>
+	
+	<!-- CTA -->
+	<section class="py-20 lg:py-24 bg-deb-dark">
+		<div class="max-w-4xl mx-auto px-6 lg:px-8 text-center">
+			<h2 class="text-3xl sm:text-4xl font-semibold text-deb-white tracking-tight mb-6">
+				{t('serviceDetail.cta')}
+			</h2>
+			<a 
+				href={`/${lang}/contact`}
+				class="inline-flex items-center px-10 py-5 bg-deb-gold text-deb-dark font-semibold rounded-lg hover:bg-deb-gold/90 transition-all duration-300 hover:shadow-xl hover:-translate-y-1"
+			>
+				{t('contact.whatsapp.button')}
+				<svg class="w-5 h-5 ml-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+					<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 8l4 4m0 0l-4 4m4-4H3"/>
+				</svg>
+			</a>
+		</div>
+	</section>
+</Layout>

@@ -1,0 +1,46 @@
+---
+import Layout from '../../layouts/Layout.astro';
+import ServiceCard from '../../components/ui/ServiceCard.astro';
+import SectionHeader from '../../components/ui/SectionHeader.astro';
+import CTABanner from '../../components/sections/CTABanner.astro';
+
+const services = [
+	{ id: 'electricite', icon: 'electricite' },
+	{ id: 'plomberie', icon: 'plomberie' },
+	{ id: 'carrelage', icon: 'carrelage' },
+	{ id: 'parquet', icon: 'parquet' },
+	{ id: 'peinture', icon: 'peinture' },
+	{ id: 'poncage', icon: 'poncage' },
+];
+---
+
+<Layout>
+	<!-- Hero -->
+	<section class="relative py-32 lg:py-40 bg-deb-dark overflow-hidden">
+		<div class="absolute inset-0 bg-gradient-to-br from-deb-dark via-deb-gray to-deb-dark" />
+		<div class="relative z-10 max-w-7xl mx-auto px-6 lg:px-8 text-center">
+			<span class="inline-block text-sm font-semibold tracking-widest uppercase text-deb-gold mb-4">
+				D.E.B TOUT CORPS
+			</span>
+			<h1 class="text-4xl sm:text-5xl lg:text-6xl font-semibold text-deb-white tracking-tight mb-6">
+				Nuestros Servicios
+			</h1>
+			<p class="text-lg text-deb-white/60 max-w-2xl mx-auto">
+				Soluciones profesionales para todas sus obras de reforma y acondicionamiento.
+			</p>
+		</div>
+	</section>
+	
+	<!-- Services Grid -->
+	<section class="py-24 lg:py-32 bg-deb-cream">
+		<div class="max-w-7xl mx-auto px-6 lg:px-8">
+			<div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 lg:gap-8">
+				{services.map((service) => (
+					<ServiceCard service={service.id} icon={service.icon} />
+				))}
+			</div>
+		</div>
+	</section>
+	
+	<CTABanner />
+</Layout>

@@ -1,0 +1,67 @@
+---
+import { getLangFromUrl, useTranslations } from '../../i18n/utils';
+
+const lang = getLangFromUrl(Astro.url);
+const t = useTranslations(lang);
+
+const otherLang = lang === 'fr' ? 'es' : 'fr';
+const currentPath = Astro.url.pathname.replace(/^\/(fr|es)/, '');
+---
+
+<div class="relative inline-block">
+	<button 
+		id="lang-toggle"
+		class="flex items-center gap-2 px-3 py-2 rounded-lg text-sm font-medium transition-all duration-300 hover:bg-deb-dark/5 focus:outline-none focus:ring-2 focus:ring-deb-gold/50"
+		aria-label={lang === 'fr' ? 'Changer de langue' : 'Cambiar idioma'}
+		aria-expanded="false"
+		aria-controls="lang-menu"
+	>
+		<span class="uppercase tracking-wider">{lang}</span>
+		<svg class="w-4 h-4 transition-transform duration-300" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+			<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
+		</svg>
+	</button>
+	
+	<div 
+		id="lang-menu"
+		class="absolute right-0 mt-2 w-32 bg-deb-white rounded-xl shadow-lg border border-deb-light-gray opacity-0 invisible transform scale-95 transition-all duration-300 z-50"
+		role="menu"
+	>
+		<a 
+			href={`/${otherLang}${currentPath}`}
+			class="block px-4 py-3 text-sm font-medium text-deb-dark hover:text-deb-gold hover:bg-deb-cream rounded-xl transition-colors duration-200"
+			role="menuitem"
+		>
+			{otherLang === 'fr' ? 'Français' : 'Español'}
+		</a>
+	</div>
+</div>
+
+<script>
+	const toggle = document.getElementById('lang-toggle');
+	const menu = document.getElementById('lang-menu');
+	
+	if (toggle && menu) {
+		toggle.addEventListener('click', () => {
+			const isExpanded = toggle.getAttribute('aria-expanded') === 'true';
+			toggle.setAttribute('aria-expanded', (!isExpanded).toString());
+			
+			if (isExpanded) {
+				menu.classList.add('opacity-0', 'invisible', 'scale-95');
+				menu.classList.remove('opacity-100', 'visible', 'scale-100');
+			} else {
+				menu.classList.remove('opacity-0', 'invisible', 'scale-95');
+				menu.classList.add('opacity-100', 'visible', 'scale-100');
+			}
+		});
+		
+		// Close on click outside
+		document.addEventListener('click', (e) => {
+			if (!toggle.contains(e.target as Node) && !menu.contains(e.target as Node)) {
+				toggle.setAttribute('aria-expanded', 'false');
+				menu.classList.add('opacity-0', 'invisible', 'scale-95');
+				menu.classList.remove('opacity-100', 'visible', 'scale-100');
+			}
+		});
+	}
+</script>
