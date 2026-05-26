@@ -10,7 +10,7 @@ import Layout from '../../layouts/Layout.astro';
 			<span class="inline-block text-sm font-semibold tracking-widest uppercase text-deb-gold mb-4">
 				D.E.B TOUT CORPS
 			</span>
-			<h1 class="text-4xl sm:text-5xl lg:text-6xl font-semibold text-deb-white tracking-tight mb-6">
+			<h1 class="text-4xl sm:text-5xl lg:text-6xl font-semibold text-deb-white tracking-tight mb-6 break-words">
 				Contáctenos
 			</h1>
 			<p class="text-lg text-deb-white/60 max-w-2xl mx-auto">
@@ -78,7 +78,7 @@ import Layout from '../../layouts/Layout.astro';
 								</div>
 								<div>
 									<p class="text-sm text-deb-gray mb-1">Teléfono</p>
-									<p class="text-deb-dark font-medium">+33 1 23 45 67 89</p>
+									<p class="text-deb-dark font-medium">+33 07 67 59 75 08</p>
 								</div>
 							</li>
 							<li class="flex items-start gap-4">
@@ -87,7 +87,7 @@ import Layout from '../../layouts/Layout.astro';
 								</div>
 								<div>
 									<p class="text-sm text-deb-gray mb-1">Email</p>
-									<p class="text-deb-dark font-medium">contact@deb-toutcorps.fr</p>
+									<p class="text-deb-dark font-medium break-words">professionnels.renovation@gmail.com</p>
 								</div>
 							</li>
 							<li class="flex items-start gap-4">
@@ -110,20 +110,10 @@ import Layout from '../../layouts/Layout.astro';
 							<div>
 								<h3 class="text-lg font-semibold text-deb-dark mb-2">O contáctenos por WhatsApp</h3>
 								<p class="text-deb-gray text-sm mb-4">Para una respuesta rápida, envíenos un mensaje directamente por WhatsApp.</p>
-								<a href="https://wa.me/33123456789" target="_blank" rel="noopener noreferrer" class="inline-flex items-center px-6 py-3 bg-green-500 text-white font-medium rounded-lg hover:bg-green-600 transition-all duration-300">
+								<a href={`https://wa.me/330767597508?text=${encodeURIComponent('Hola, me gustaría obtener un presupuesto para trabajos de reforma. ¿Podrían contactarme?')}`} target="_blank" rel="noopener noreferrer" class="inline-flex items-center px-6 py-3 bg-green-500 text-white font-medium rounded-lg hover:bg-green-600 transition-all duration-300 break-words text-center">
 									Escribir por WhatsApp
 									<svg class="w-5 h-5 ml-2" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"/></svg>
 								</a>
-							</div>
-						</div>
-					</div>
-					
-					<div class="bg-deb-white rounded-2xl p-8 border border-deb-light-gray/50">
-						<h3 class="text-lg font-semibold text-deb-dark mb-4">Zona de intervención</h3>
-						<div class="aspect-video rounded-xl bg-deb-cream flex items-center justify-center">
-							<div class="text-center p-6">
-								<svg class="w-12 h-12 text-deb-gold/40 mx-auto mb-3" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"/><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"/></svg>
-								<p class="text-deb-gray text-sm">Francia</p>
 							</div>
 						</div>
 					</div>

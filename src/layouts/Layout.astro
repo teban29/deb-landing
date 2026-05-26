@@ -2,6 +2,7 @@
 import '../styles/global.css';
 import Navbar from '../components/Navbar.astro';
 import Footer from '../components/Footer.astro';
+import WhatsAppFloat from '../components/WhatsAppFloat.astro';
 import { getLangFromUrl, useTranslations } from '../i18n/utils';
 
 interface Props {
@@ -19,7 +20,7 @@ const defaultTitle = t('meta.homeTitle');
 const defaultDesc = t('meta.homeDesc');
 const finalTitle = title ? `${title} | ${siteName}` : defaultTitle;
 const finalDesc = description || defaultDesc;
-const ogImage = image || '/og-image.jpg';
+const ogImage = image || '/og-image.webp';
 const canonicalURL = Astro.site ? new URL(Astro.url.pathname, Astro.site) : new URL(Astro.url.pathname, 'https://deb-toutcorps.fr');
 ---
 
@@ -85,5 +86,6 @@ const canonicalURL = Astro.site ? new URL(Astro.url.pathname, Astro.site) : new 
 			<slot />
 		</main>
 		<Footer />
+		<WhatsAppFloat />
 	</body>
 </html>

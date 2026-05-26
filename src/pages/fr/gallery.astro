@@ -5,25 +5,18 @@ import { getLangFromUrl, useTranslations } from '../../i18n/utils';
 const lang = getLangFromUrl(Astro.url);
 const t = useTranslations(lang);
 
-const categories = [
-	{ id: 'all', label: t('gallery.category.all') },
-	{ id: 'electricite', label: t('gallery.category.electricite') },
-	{ id: 'plomberie', label: t('gallery.category.plomberie') },
-	{ id: 'carrelage', label: t('gallery.category.carrelage') },
-	{ id: 'parquet', label: t('gallery.category.parquet') },
-	{ id: 'peinture', label: t('gallery.category.peinture') },
-	{ id: 'poncage', label: t('gallery.category.poncage') },
-];
-
+// Only AFTER images (final results)
 const projects = [
-	{ id: 1, category: 'peinture', title: lang === 'fr' ? 'Salon contemporain' : 'Salón contemporáneo' },
-	{ id: 2, category: 'parquet', title: lang === 'fr' ? 'Parquet chêne massif' : 'Parquet roble macizo' },
-	{ id: 3, category: 'carrelage', title: lang === 'fr' ? 'Salle de bain design' : 'Baño de diseño' },
-	{ id: 4, category: 'electricite', title: lang === 'fr' ? 'Installation complète' : 'Instalación completa' },
-	{ id: 5, category: 'peinture', title: lang === 'fr' ? 'Chambre parentale' : 'Dormitorio principal' },
-	{ id: 6, category: 'plomberie', title: lang === 'fr' ? 'Cuisine moderne' : 'Cocina moderna' },
-	{ id: 7, category: 'poncage', title: lang === 'fr' ? 'Restauration parquet' : 'Restauración parquet' },
-	{ id: 8, category: 'carrelage', title: lang === 'fr' ? 'Terrasse extérieure' : 'Terraza exterior' },
+	{ id: 1, category: 'peinture', title: lang === 'fr' ? 'Salon contemporain' : 'Salón contemporáneo', image: '/images/after/salon-contemporaneo.webp' },
+	{ id: 2, category: 'parquet', title: lang === 'fr' ? 'Escalier résidentiel' : 'Escalera residencial', image: '/images/after/escaleras-residenciales.webp' },
+	{ id: 3, category: 'plomberie', title: lang === 'fr' ? 'Salle de bain marbre' : 'Baño mármol', image: '/images/after/bano-marmol.webp' },
+	{ id: 4, category: 'peinture', title: lang === 'fr' ? 'Moulures contemporaines' : 'Molduras contemporáneas', image: '/images/after/molduras-contemporaneas.webp' },
+	{ id: 5, category: 'parquet', title: lang === 'fr' ? 'Parquet bois massif' : 'Parquet madera', image: '/images/after/parquet-madera.webp' },
+	{ id: 6, category: 'peinture', title: lang === 'fr' ? 'Couloir avec moulures' : 'Pasillo con molduras', image: '/images/after/pasillo-molduras.webp' },
+	{ id: 7, category: 'carrelage', title: lang === 'fr' ? 'Rénovation d\'entrée' : 'Renovación portal', image: '/images/after/renovacion-portal.webp' },
+	{ id: 8, category: 'peinture', title: lang === 'fr' ? 'Escalier et fenêtres' : 'Escalera y ventanas', image: '/images/after/escaleras-ventanas.webp' },
+	{ id: 9, category: 'peinture', title: lang === 'fr' ? 'Salon professionnel' : 'Salón profesional', image: '/images/after/salon-profesional.webp' },
+	{ id: 10, category: 'peinture', title: lang === 'fr' ? 'Salon seigneurial' : 'Salón señorial', image: '/images/after/salon-senorial.webp' },
 ];
 ---
 
@@ -47,29 +40,22 @@ const projects = [
 	<!-- Gallery -->
 	<section class="py-24 lg:py-32 bg-deb-cream">
 		<div class="max-w-7xl mx-auto px-6 lg:px-8">
-			<!-- Filters -->
-			<div class="flex flex-wrap justify-center gap-3 mb-12">
-				{categories.map((cat) => (
-					<button 
-						class="px-5 py-2.5 rounded-full text-sm font-medium transition-all duration-300 bg-deb-white text-deb-dark hover:bg-deb-gold hover:text-deb-dark border border-deb-light-gray/50"
-						data-category={cat.id}
-					>
-						{cat.label}
-					</button>
-				))}
-			</div>
-			
-			<!-- Grid -->
-			<div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+			<!-- Masonry Grid -->
+			<div class="masonry-grid">
 				{projects.map((project) => (
 					<div 
-						class="group relative aspect-[4/3] rounded-2xl overflow-hidden bg-deb-gray cursor-pointer"
+						class="masonry-item group relative rounded-2xl overflow-hidden bg-deb-gray cursor-pointer img-zoom"
 						data-project-category={project.category}
 					>
-						<div class="absolute inset-0 bg-deb-dark/40 group-hover:bg-deb-dark/30 transition-colors duration-500 z-10" />
-						<div class="absolute inset-0 flex items-end p-6 z-20">
-							<div class="transform translate-y-4 opacity-0 group-hover:translate-y-0 group-hover:opacity-100 transition-all duration-500">
-								<span class="inline-block px-3 py-1 bg-deb-gold/90 text-deb-dark text-xs font-semibold rounded-full mb-2 uppercase tracking-wider">
+						<img 
+							src={project.image} 
+							alt={project.title}
+							loading="lazy"
+						/>
+						<div class="absolute inset-0 bg-gradient-to-t from-deb-dark/80 via-deb-dark/20 to-transparent opacity-100 [@media(hover:hover)]:opacity-0 group-hover:opacity-100 transition-opacity duration-500 z-10" />
+						<div class="absolute inset-0 flex items-end p-6 z-20 opacity-100 [@media(hover:hover)]:opacity-0 group-hover:opacity-100 transition-opacity duration-500">
+							<div class="transform translate-y-0 [@media(hover:hover)]:translate-y-4 group-hover:translate-y-0 transition-transform duration-500">
+								<span class="inline-block px-3 py-1 bg-deb-gold text-deb-dark text-xs font-semibold rounded-full mb-2 uppercase tracking-wider">
 									{t(`gallery.category.${project.category}`)}
 								</span>
 								<h3 class="text-lg font-semibold text-deb-white">{project.title}</h3>

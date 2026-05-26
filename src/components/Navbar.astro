@@ -15,136 +15,220 @@ const navLinks = [
 ---
 
 <header 
-	class="fixed top-0 left-0 right-0 z-50 transition-all duration-500"
+	class="fixed top-0 left-0 right-0 z-50 bg-deb-white/95 backdrop-blur-2xl border-b border-deb-border/50 transition-all duration-500"
 	id="navbar"
 >
 	<div class="max-w-7xl mx-auto px-6 lg:px-8">
 		<nav class="flex items-center justify-between h-20 lg:h-24" aria-label="Main navigation">
 			<!-- Logo -->
-			<a href={`/${lang}/`} class="flex items-center gap-3 group" aria-label="D.E.B TOUT CORPS - Home">
-				<div class="relative h-12 lg:h-14 w-auto overflow-hidden rounded-lg bg-white transition-transform duration-300 group-hover:scale-105">
+			<a href={`/${lang}/`} class="flex items-center gap-3 group z-50 relative" aria-label="D.E.B TOUT CORPS - Home">
+				<div class="relative h-14 lg:h-16 w-auto transition-transform duration-500 group-hover:scale-105">
 					<img 
-						src="/images/logo-deb.jpeg" 
+						src="/images/logo.png" 
 						alt="D.E.B TOUT CORPS" 
 						class="h-full w-auto object-contain"
-						width="200"
-						height="56"
+						width="220"
+						height="64"
+						loading="eager"
 					/>
 				</div>
 			</a>
 			
 			<!-- Desktop Navigation -->
-			<div class="hidden lg:flex items-center gap-1">
+			<div class="hidden lg:flex items-center gap-8">
 				{navLinks.map((link) => (
 					<a 
 						href={link.href}
-						class="relative px-4 py-2 text-sm font-medium text-deb-dark/80 hover:text-deb-dark transition-colors duration-300 group"
+						class="nav-link relative text-sm font-medium text-deb-dark/70 hover:text-deb-dark transition-colors duration-300"
 						aria-current={Astro.url.pathname === link.href ? 'page' : undefined}
 					>
 						{link.label}
-						<span class="absolute bottom-0 left-4 right-4 h-0.5 bg-deb-gold scale-x-0 group-hover:scale-x-100 transition-transform duration-300 origin-left rounded-full" />
 					</a>
 				))}
-			</div>
-			
-			<!-- Right side -->
-			<div class="flex items-center gap-4">
-				<LanguagePicker />
 				
+				<div class="h-6 w-px bg-deb-border mx-2" />
+				
+				<!-- Language Picker -->
+				<LanguagePicker variant="desktop" />
+				
+				<!-- CTA Button -->
 				<a 
 					href={`/${lang}/contact`}
-					class="hidden sm:inline-flex items-center px-5 py-2.5 bg-deb-dark text-deb-white text-sm font-medium rounded-lg hover:bg-deb-gray transition-all duration-300 hover:shadow-lg hover:-translate-y-0.5"
+					class="ml-2 px-6 py-3 bg-deb-gold text-deb-dark text-sm font-semibold rounded-full hover:bg-deb-gold-dark transition-all duration-300 hover:shadow-lg hover:shadow-deb-gold/20"
 				>
 					{t('nav.getQuote')}
 				</a>
+			</div>
+			
+			<!-- Mobile controls -->
+			<div class="flex items-center gap-3 lg:hidden">
+				<LanguagePicker variant="mobile" />
 				
 				<!-- Mobile menu button -->
 				<button 
 					id="mobile-menu-button"
-					class="lg:hidden p-2 rounded-lg hover:bg-deb-dark/5 transition-colors duration-200"
+					class="relative z-50 w-11 h-11 min-w-[44px] min-h-[44px] flex items-center justify-center rounded-full bg-deb-dark transition-colors duration-300"
 					aria-label="Toggle menu"
 					aria-expanded="false"
 					aria-controls="mobile-menu"
 				>
-					<svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
-						<path class="menu-icon-open" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16" />
-						<path class="menu-icon-close hidden" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
-					</svg>
+					<div class="relative w-5 h-4">
+						<span class="menu-line absolute left-0 w-full h-0.5 bg-deb-white rounded-full transition-all duration-300 origin-center" style="top: 0"></span>
+						<span class="menu-line absolute left-0 w-full h-0.5 bg-deb-white rounded-full transition-all duration-300 origin-center" style="top: 50%; transform: translateY(-50%)"></span>
+						<span class="menu-line absolute left-0 w-full h-0.5 bg-deb-white rounded-full transition-all duration-300 origin-center" style="bottom: 0"></span>
+					</div>
 				</button>
 			</div>
 		</nav>
+</header>
+
+<!-- Mobile Menu Overlay -->
+<div 
+	id="mobile-menu"
+	class="fixed inset-0 bg-deb-dark/98 backdrop-blur-2xl z-[60] flex flex-col overflow-y-auto transition-all duration-500 opacity-0 invisible pointer-events-none"
+	role="dialog"
+	aria-label="Mobile navigation"
+>
+	<!-- Close button -->
+	<div class="absolute top-6 right-6 z-10">
+		<button 
+			id="mobile-menu-close"
+			class="w-12 h-12 min-w-[48px] min-h-[48px] flex items-center justify-center rounded-full bg-deb-white/10 hover:bg-deb-white/20 transition-colors duration-300"
+			aria-label={lang === 'fr' ? 'Fermer le menu' : 'Cerrar menú'}
+		>
+			<svg class="w-6 h-6 text-deb-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+				<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/>
+			</svg>
+		</button>
 	</div>
 	
-	<!-- Mobile Menu -->
-	<div 
-		id="mobile-menu"
-		class="lg:hidden fixed inset-x-0 top-20 bg-deb-white/95 backdrop-blur-xl border-b border-deb-light-gray transform -translate-y-full transition-transform duration-500 opacity-0 invisible"
-		role="dialog"
-		aria-label="Mobile navigation"
-	>
-		<div class="max-w-7xl mx-auto px-6 py-8 space-y-2">
+	<div class="flex-1 flex flex-col items-center justify-start pt-28 pb-12 px-6 min-h-full">
+		<div class="text-center space-y-1 w-full max-w-sm">
 			{navLinks.map((link) => (
 				<a 
 					href={link.href}
-					class="block px-4 py-3 text-lg font-medium text-deb-dark hover:text-deb-gold hover:bg-deb-cream rounded-lg transition-colors duration-200"
+					class="mobile-nav-link block px-6 py-4 text-2xl font-semibold text-deb-white/70 hover:text-deb-gold transition-colors duration-300 break-words"
 				>
 					{link.label}
 				</a>
 			))}
-			<div class="pt-4 border-t border-deb-light-gray">
+			<div class="pt-8 mt-6 border-t border-white/10">
 				<a 
 					href={`/${lang}/contact`}
-					class="block w-full text-center px-5 py-3 bg-deb-dark text-deb-white font-medium rounded-lg hover:bg-deb-gray transition-colors duration-200"
+					class="mobile-nav-link inline-flex items-center px-8 py-4 bg-deb-gold text-deb-dark font-semibold rounded-full hover:bg-deb-gold-light transition-all duration-300"
 				>
 					{t('nav.getQuote')}
 				</a>
 			</div>
 		</div>
 	</div>
-</header>
+</div>
 
-<script>
-	// Navbar scroll effect
-	const navbar = document.getElementById('navbar');
-	let lastScroll = 0;
-	
-	function updateNavbar() {
-		const currentScroll = window.scrollY;
+<script is:inline>
+	// Mobile menu toggle
+	(function() {
+		var menuButton = document.getElementById('mobile-menu-button');
+		var mobileMenu = document.getElementById('mobile-menu');
+		var closeButton = document.getElementById('mobile-menu-close');
+		var menuLines = document.querySelectorAll('.menu-line');
+		var mobileNavLinks = document.querySelectorAll('.mobile-nav-link');
 		
-		if (currentScroll > 50) {
-			navbar?.classList.add('bg-deb-white/90', 'backdrop-blur-xl', 'shadow-sm');
-			navbar?.classList.remove('bg-transparent');
-		} else {
-			navbar?.classList.remove('bg-deb-white/90', 'backdrop-blur-xl', 'shadow-sm');
-			navbar?.classList.add('bg-transparent');
+		function openMenu() {
+			if (!mobileMenu) return;
+			mobileMenu.classList.remove('opacity-0', 'invisible', 'pointer-events-none');
+			mobileMenu.classList.add('opacity-100', 'visible', 'pointer-events-auto');
+			if (menuButton) menuButton.setAttribute('aria-expanded', 'true');
+			
+			// Animate hamburger to X
+			if (menuLines.length >= 3) {
+				menuLines[0].classList.add('rotate-45', 'top-1/2');
+				menuLines[0].style.setProperty('top', '50%');
+				menuLines[1].classList.add('opacity-0');
+				menuLines[2].classList.add('-rotate-45', 'bottom-1/2');
+				menuLines[2].style.setProperty('bottom', '50%');
+			}
+			
+			// Prevent body scroll
+			document.body.style.overflow = 'hidden';
 		}
 		
-		lastScroll = currentScroll;
+		function closeMenu() {
+			if (!mobileMenu) return;
+			mobileMenu.classList.add('opacity-0', 'invisible', 'pointer-events-none');
+			mobileMenu.classList.remove('opacity-100', 'visible', 'pointer-events-auto');
+			if (menuButton) menuButton.setAttribute('aria-expanded', 'false');
+			
+			// Reset hamburger
+			if (menuLines.length >= 3) {
+				menuLines[0].classList.remove('rotate-45', 'top-1/2');
+				menuLines[0].style.removeProperty('top');
+				menuLines[1].classList.remove('opacity-0');
+				menuLines[2].classList.remove('-rotate-45', 'bottom-1/2');
+				menuLines[2].style.removeProperty('bottom');
+			}
+			
+			// Restore body scroll
+			document.body.style.overflow = '';
+		}
+		
+		if (menuButton && mobileMenu) {
+			menuButton.addEventListener('click', function() {
+				var isExpanded = menuButton.getAttribute('aria-expanded') === 'true';
+				if (isExpanded) {
+					closeMenu();
+				} else {
+					openMenu();
+				}
+			});
+			
+			// Close menu when clicking close button
+			if (closeButton) {
+				closeButton.addEventListener('click', function() {
+					closeMenu();
+				});
+			}
+			
+			// Close menu when clicking a link
+			mobileNavLinks.forEach(function(link) {
+				link.addEventListener('click', function() {
+					closeMenu();
+				});
+			});
+			
+			// Close on Escape key
+			document.addEventListener('keydown', function(e) {
+				if (e.key === 'Escape') {
+					closeMenu();
+				}
+			});
+		}
+	})();
+</script>
+
+<style>
+	/* Active nav link styling */
+	.nav-link[aria-current="page"] {
+		color: var(--color-deb-dark) !important;
+		font-weight: 600;
+	}
+	.nav-link[aria-current="page"]::after {
+		width: 100% !important;
 	}
 	
-	window.addEventListener('scroll', updateNavbar, { passive: true });
-	updateNavbar();
+	/* Smooth underline hover effect */
+	.nav-link::after {
+		content: '';
+		position: absolute;
+		bottom: -4px;
+		left: 0;
+		width: 0;
+		height: 2px;
+		background-color: var(--color-deb-gold);
+		transition: width 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+		border-radius: 1px;
+	}
 	
-	// Mobile menu toggle
-	const menuButton = document.getElementById('mobile-menu-button');
-	const mobileMenu = document.getElementById('mobile-menu');
-	const menuIconOpen = document.querySelector('.menu-icon-open');
-	const menuIconClose = document.querySelector('.menu-icon-close');
-	
-	menuButton?.addEventListener('click', () => {
-		const isExpanded = menuButton.getAttribute('aria-expanded') === 'true';
-		menuButton.setAttribute('aria-expanded', (!isExpanded).toString());
-		
-		if (isExpanded) {
-			mobileMenu?.classList.add('-translate-y-full', 'opacity-0', 'invisible');
-			mobileMenu?.classList.remove('translate-y-0', 'opacity-100', 'visible');
-			menuIconOpen?.classList.remove('hidden');
-			menuIconClose?.classList.add('hidden');
-		} else {
-			mobileMenu?.classList.remove('-translate-y-full', 'opacity-0', 'invisible');
-			mobileMenu?.classList.add('translate-y-0', 'opacity-100', 'visible');
-			menuIconOpen?.classList.add('hidden');
-			menuIconClose?.classList.remove('hidden');
-		}
-	});
-</script>
+	.nav-link:hover::after {
+		width: 100%;
+	}
+</style>

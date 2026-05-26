@@ -3,58 +3,109 @@ import { getLangFromUrl, useTranslations } from '../../i18n/utils';
 
 const lang = getLangFromUrl(Astro.url);
 const t = useTranslations(lang);
+
+const floatingStats = [
+	{ value: '15+', label: lang === 'fr' ? 'Années' : 'Años', sub: lang === 'fr' ? "d'expertise" : 'de experiencia' },
+	{ value: '500+', label: lang === 'fr' ? 'Projets' : 'Proyectos', sub: lang === 'fr' ? 'réalisés' : 'realizados' },
+	{ value: '100%', label: lang === 'fr' ? 'Satisfaction' : 'Satisfacción', sub: lang === 'fr' ? 'client' : 'cliente' },
+];
 ---
 
-<section class="relative min-h-screen flex items-center overflow-hidden bg-deb-dark">
-	<!-- Background image with overlay -->
+<section class="relative min-h-[95vh] flex flex-col justify-center overflow-hidden">
+	<!-- Background Image with cinematic treatment -->
 	<div class="absolute inset-0">
-		<div class="absolute inset-0 bg-gradient-to-r from-deb-dark/95 via-deb-dark/80 to-deb-dark/60 z-10" />
 		<img 
-			src="/images/hero-bg.jpg" 
+			src="/images/hero-image.png" 
 			alt="Construction and renovation" 
-			class="w-full h-full object-cover"
+			class="w-full h-full object-cover scale-105"
+			style="object-position: center 30%;"
 			loading="eager"
 		/>
+		<!-- Multi-layer overlay for depth -->
+		<div class="absolute inset-0 bg-gradient-to-r from-deb-dark/95 via-deb-dark/80 to-deb-dark/60" />
+		<div class="absolute inset-0 bg-gradient-to-t from-deb-dark via-transparent to-deb-dark/30" />
+		<div class="absolute bottom-0 left-0 right-0 h-48 bg-gradient-to-t from-deb-dark to-transparent" />
 	</div>
 	
-	<div class="relative z-20 max-w-7xl mx-auto px-6 lg:px-8 py-32 lg:py-40">
-		<div class="max-w-3xl">
-			<span class="inline-block px-4 py-2 bg-deb-gold/10 border border-deb-gold/20 rounded-full text-deb-gold text-sm font-medium tracking-wider uppercase mb-8 animate-fade-up" style="animation-delay: 0.1s">
+	<!-- Floating decorative orbs -->
+	<div class="absolute top-20 right-[10%] w-72 h-72 rounded-full bg-deb-gold/8 blur-[100px]" />
+	<div class="absolute bottom-32 left-[5%] w-56 h-56 rounded-full bg-deb-gold/5 blur-[80px]" />
+	
+	<!-- Content -->
+	<div class="relative z-20 max-w-7xl mx-auto px-6 lg:px-8 w-full pt-32 pb-24">
+		<!-- Top eyebrow -->
+		<div class="flex items-center gap-4 mb-10 animate-fade-up" style="animation-delay: 0.1s">
+			<span class="w-16 h-[2px] bg-deb-gold rounded-full" />
+			<span class="text-deb-gold text-sm font-semibold tracking-[0.25em] uppercase">
 				{t('hero.eyebrow')}
 			</span>
-			
-			<h1 class="text-4xl sm:text-5xl lg:text-7xl font-semibold text-deb-white leading-[1.1] mb-8 animate-fade-up" style="animation-delay: 0.2s">
-				{t('hero.title')}
+		</div>
+		
+		<!-- Main Headline - Large editorial typography -->
+		<div class="max-w-4xl mb-12">
+			<h1 class="text-5xl sm:text-6xl md:text-7xl lg:text-8xl font-bold text-white leading-[0.9] tracking-tight mb-8">
+				<span class="block animate-fade-up" style="animation-delay: 0.2s">
+					{lang === 'fr' ? "Transformez" : "Transforme"}
+				</span>
+				<span class="block animate-fade-up" style="animation-delay: 0.35s">
+					{lang === 'fr' ? "votre espace" : "su espacio"}
+				</span>
+				<span class="block text-deb-gold animate-fade-up mt-2" style="animation-delay: 0.5s">
+					{lang === 'fr' ? "avec excellence" : "con excelencia"}
+				</span>
 			</h1>
 			
-			<p class="text-lg sm:text-xl text-deb-white/70 leading-relaxed mb-10 max-w-2xl animate-fade-up" style="animation-delay: 0.3s">
+			<!-- Subtitle -->
+			<p class="text-lg sm:text-xl text-white/70 leading-relaxed max-w-xl mb-12 animate-fade-up" style="animation-delay: 0.65s">
 				{t('hero.subtitle')}
 			</p>
 			
-			<div class="flex flex-col sm:flex-row gap-4 animate-fade-up" style="animation-delay: 0.4s">
+			<!-- CTA Buttons -->
+			<div class="flex flex-col sm:flex-row gap-4 animate-fade-up" style="animation-delay: 0.8s">
 				<a 
 					href={`/${lang}/services`}
-					class="inline-flex items-center justify-center px-8 py-4 bg-deb-gold text-deb-dark font-semibold rounded-lg hover:bg-deb-gold/90 transition-all duration-300 hover:shadow-lg hover:-translate-y-0.5"
+					class="group inline-flex items-center justify-center px-8 py-4 bg-deb-gold text-deb-dark font-semibold rounded-full hover:bg-deb-gold-light transition-all duration-300 hover:shadow-xl hover:shadow-deb-gold/20"
 				>
 					{t('hero.cta.primary')}
-					<svg class="w-5 h-5 ml-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+					<svg class="w-5 h-5 ml-2 transform group-hover:translate-x-1 transition-transform duration-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
 						<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 8l4 4m0 0l-4 4m4-4H3"/>
 					</svg>
 				</a>
 				<a 
 					href={`/${lang}/contact`}
-					class="inline-flex items-center justify-center px-8 py-4 border-2 border-deb-white/30 text-deb-white font-semibold rounded-lg hover:bg-deb-white/10 hover:border-deb-white/50 transition-all duration-300"
+					class="group inline-flex items-center justify-center px-8 py-4 border border-white/30 text-white font-semibold rounded-full hover:bg-white/10 hover:border-white/50 transition-all duration-300"
 				>
 					{t('hero.cta.secondary')}
+					<svg class="w-5 h-5 ml-2 transform group-hover:translate-x-1 transition-transform duration-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+						<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 8l4 4m0 0l-4 4m4-4H3"/>
+					</svg>
 				</a>
 			</div>
 		</div>
+		
+		<!-- Floating Stats Cards -->
+		<div class="grid grid-cols-3 gap-4 lg:gap-8 max-w-2xl mt-16 animate-fade-up" style="animation-delay: 1s">
+			{floatingStats.map((stat) => (
+				<div class="bg-white/10 backdrop-blur-md rounded-2xl p-4 lg:p-6 border border-white/10 hover:bg-white/15 transition-all duration-300 group">
+					<p class="text-2xl lg:text-3xl font-bold text-deb-gold mb-1">{stat.value}</p>
+					<p class="text-white/90 text-sm font-medium">{stat.label}</p>
+					<p class="text-white/50 text-xs">{stat.sub}</p>
+				</div>
+			))}
+		</div>
 	</div>
 	
-	<!-- Scroll indicator -->
-	<div class="absolute bottom-8 left-1/2 -translate-x-1/2 z-20 animate-bounce">
-		<svg class="w-6 h-6 text-deb-white/50" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-			<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 14l-7 7m0 0l-7-7m7 7V3"/>
-		</svg>
-	</div>
+	<!-- Scroll Indicator -->
+	
 </section>
+
+<style>
+	@keyframes scrollBounce {
+		0%, 100% { transform: translateY(-100%); }
+		50% { transform: translateY(200%); }
+	}
+	
+	.animate-bounce {
+		animation: scrollBounce 2s ease-in-out infinite;
+	}
+</style>

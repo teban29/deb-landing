@@ -1,67 +1,81 @@
 ---
 import { getLangFromUrl, useTranslations } from '../../i18n/utils';
 
+interface Props {
+	variant?: string;
+}
+
+const { variant = 'default' } = Astro.props;
+
 const lang = getLangFromUrl(Astro.url);
 const t = useTranslations(lang);
 
 const otherLang = lang === 'fr' ? 'es' : 'fr';
 const currentPath = Astro.url.pathname.replace(/^\/(fr|es)/, '');
+const toggleId = `lang-toggle-${variant}`;
+const menuId = `lang-menu-${variant}`;
 ---
 
 <div class="relative inline-block">
 	<button 
-		id="lang-toggle"
-		class="flex items-center gap-2 px-3 py-2 rounded-lg text-sm font-medium transition-all duration-300 hover:bg-deb-dark/5 focus:outline-none focus:ring-2 focus:ring-deb-gold/50"
+		id={toggleId}
+		class="flex items-center gap-2 px-4 py-2 rounded-full text-sm font-semibold transition-all duration-300 bg-deb-cream text-deb-dark hover:bg-deb-gold/20 focus:outline-none focus:ring-2 focus:ring-deb-gold/50 border border-deb-border min-h-[44px] min-w-[44px] justify-center"
 		aria-label={lang === 'fr' ? 'Changer de langue' : 'Cambiar idioma'}
 		aria-expanded="false"
-		aria-controls="lang-menu"
+		aria-controls={menuId}
 	>
-		<span class="uppercase tracking-wider">{lang}</span>
-		<svg class="w-4 h-4 transition-transform duration-300" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+		<span class="uppercase tracking-wider text-xs">{lang}</span>
+		<svg class="w-3 h-3 text-deb-gray transition-transform duration-300" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
 			<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
 		</svg>
 	</button>
 	
 	<div 
-		id="lang-menu"
-		class="absolute right-0 mt-2 w-32 bg-deb-white rounded-xl shadow-lg border border-deb-light-gray opacity-0 invisible transform scale-95 transition-all duration-300 z-50"
+		id={menuId}
+		class="absolute right-0 mt-2 w-36 bg-deb-white rounded-2xl shadow-xl border border-deb-border opacity-0 invisible transform scale-95 transition-all duration-300 z-50 overflow-hidden"
 		role="menu"
 	>
 		<a 
 			href={`/${otherLang}${currentPath}`}
-			class="block px-4 py-3 text-sm font-medium text-deb-dark hover:text-deb-gold hover:bg-deb-cream rounded-xl transition-colors duration-200"
+			class="flex items-center gap-3 px-4 py-3 text-sm font-medium text-deb-dark hover:text-deb-gold hover:bg-deb-cream transition-colors duration-200"
 			role="menuitem"
 		>
+			<span class="w-6 h-6 rounded-full bg-deb-cream flex items-center justify-center text-xs font-bold uppercase">
+				{otherLang}
+			</span>
 			{otherLang === 'fr' ? 'Français' : 'Español'}
 		</a>
 	</div>
 </div>
 
-<script>
-	const toggle = document.getElementById('lang-toggle');
-	const menu = document.getElementById('lang-menu');
-	
-	if (toggle && menu) {
-		toggle.addEventListener('click', () => {
-			const isExpanded = toggle.getAttribute('aria-expanded') === 'true';
-			toggle.setAttribute('aria-expanded', (!isExpanded).toString());
-			
-			if (isExpanded) {
-				menu.classList.add('opacity-0', 'invisible', 'scale-95');
-				menu.classList.remove('opacity-100', 'visible', 'scale-100');
-			} else {
-				menu.classList.remove('opacity-0', 'invisible', 'scale-95');
-				menu.classList.add('opacity-100', 'visible', 'scale-100');
-			}
-		});
+<script define:vars={{ toggleId, menuId }}>
+	(function() {
+		const toggle = document.getElementById(toggleId);
+		const menu = document.getElementById(menuId);
 		
-		// Close on click outside
-		document.addEventListener('click', (e) => {
-			if (!toggle.contains(e.target as Node) && !menu.contains(e.target as Node)) {
-				toggle.setAttribute('aria-expanded', 'false');
-				menu.classList.add('opacity-0', 'invisible', 'scale-95');
-				menu.classList.remove('opacity-100', 'visible', 'scale-100');
-			}
-		});
-	}
+		if (toggle && menu) {
+			toggle.addEventListener('click', (e) => {
+				e.stopPropagation();
+				const isExpanded = toggle.getAttribute('aria-expanded') === 'true';
+				toggle.setAttribute('aria-expanded', (!isExpanded).toString());
+				
+				if (isExpanded) {
+					menu.classList.add('opacity-0', 'invisible', 'scale-95');
+					menu.classList.remove('opacity-100', 'visible', 'scale-100');
+				} else {
+					menu.classList.remove('opacity-0', 'invisible', 'scale-95');
+					menu.classList.add('opacity-100', 'visible', 'scale-100');
+				}
+			});
+			
+			// Close on click outside
+			document.addEventListener('click', (e) => {
+				if (toggle && menu && !toggle.contains(e.target) && !menu.contains(e.target)) {
+					toggle.setAttribute('aria-expanded', 'false');
+					menu.classList.add('opacity-0', 'invisible', 'scale-95');
+					menu.classList.remove('opacity-100', 'visible', 'scale-100');
+				}
+			});
+		}
+	})();
 </script>
