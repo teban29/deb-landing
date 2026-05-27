@@ -1,11 +1,290 @@
+---
+import { useTranslations } from '../i18n/utils';
+
+// Default to French for the root redirect
+const lang = 'fr';
+const t = useTranslations(lang);
+---
+
 <!doctype html>
-<html>
+<html lang={lang}>
 <head>
 	<meta charset="utf-8" />
-	<meta http-equiv="refresh" content="0;url=/fr/" />
+	<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+	<meta http-equiv="refresh" content="2;url=/fr/" />
 	<link rel="canonical" href="/fr/" />
+	<meta name="robots" content="noindex, nofollow" />
+	<title>{t('redirect.title')} | D.E.B TOUT CORPS</title>
+	<link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+	
+	<!-- Fonts -->
+	<link rel="preconnect" href="https://fonts.googleapis.com" />
+	<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+	<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet" />
+	
+	<style>
+		* { margin: 0; padding: 0; box-sizing: border-box; }
+		
+		body {
+			font-family: 'Inter', system-ui, -apple-system, sans-serif;
+			background-color: #253142;
+			color: #ffffff;
+			min-height: 100vh;
+		}
+		
+		.container {
+			position: relative;
+			z-index: 10;
+			min-height: 100vh;
+			display: flex;
+			flex-direction: column;
+			align-items: center;
+			justify-content: center;
+			padding: 0 1.5rem;
+		}
+		
+		/* Background decoration */
+		.bg-glow {
+			position: fixed;
+			inset: 0;
+			overflow: hidden;
+			pointer-events: none;
+			z-index: 0;
+		}
+		
+		.bg-glow-1,
+		.bg-glow-2 {
+			position: absolute;
+			width: 24rem;
+			height: 24rem;
+			border-radius: 50%;
+			background-color: rgba(247, 208, 81, 0.05);
+			filter: blur(64px);
+			animation: pulse-glow 2s ease-in-out infinite;
+		}
+		
+		.bg-glow-1 {
+			top: 25%;
+			left: -5rem;
+		}
+		
+		.bg-glow-2 {
+			bottom: 25%;
+			right: -5rem;
+			animation-delay: 1s;
+		}
+		
+		/* Logo */
+		.logo {
+			margin-bottom: 3rem;
+			opacity: 0;
+			animation: fade-in 0.6s ease-out forwards;
+		}
+		
+		.logo img {
+			height: 5rem;
+			width: auto;
+		}
+		
+		@media (min-width: 1024px) {
+			.logo img { height: 6rem; }
+		}
+		
+		/* Spinner */
+		.spinner-wrap {
+			position: relative;
+			margin-bottom: 2.5rem;
+		}
+		
+		.spinner {
+			width: 4rem;
+			height: 4rem;
+			border: 4px solid rgba(255, 255, 255, 0.1);
+			border-top-color: #F7D051;
+			border-radius: 50%;
+			animation: spin 3s linear infinite;
+		}
+		
+		.spinner-dot {
+			position: absolute;
+			inset: 0;
+			display: flex;
+			align-items: center;
+			justify-content: center;
+		}
+		
+		.spinner-dot-inner {
+			width: 0.75rem;
+			height: 0.75rem;
+			background-color: #F7D051;
+			border-radius: 50%;
+			animation: pulse-glow 2s ease-in-out infinite;
+		}
+		
+		/* Text content */
+		.text-content {
+			text-align: center;
+			max-width: 28rem;
+			opacity: 0;
+			animation: fade-in 0.6s ease-out 0.2s forwards;
+		}
+		
+		.text-content h1 {
+			font-size: 1.5rem;
+			font-weight: 600;
+			margin-bottom: 0.75rem;
+		}
+		
+		@media (min-width: 1024px) {
+			.text-content h1 { font-size: 1.875rem; }
+		}
+		
+		.text-content .subtitle {
+			color: rgba(255, 255, 255, 0.6);
+			font-size: 1.125rem;
+			margin-bottom: 1.5rem;
+			line-height: 1.6;
+		}
+		
+		.text-content .manual {
+			color: rgba(255, 255, 255, 0.4);
+			font-size: 0.875rem;
+		}
+		
+		.text-content .manual a {
+			color: #F7D051;
+			text-decoration: underline;
+			text-underline-offset: 2px;
+			transition: color 0.3s;
+		}
+		
+		.text-content .manual a:hover {
+			color: #FBE8A0;
+		}
+		
+		/* Language selector */
+		.lang-selector {
+			margin-top: 3rem;
+			opacity: 0;
+			animation: fade-in 0.6s ease-out 0.4s forwards;
+		}
+		
+		.lang-label {
+			color: rgba(255, 255, 255, 0.3);
+			font-size: 0.75rem;
+			margin-bottom: 0.75rem;
+			text-align: center;
+			text-transform: uppercase;
+			letter-spacing: 0.2em;
+		}
+		
+		.lang-buttons {
+			display: flex;
+			gap: 0.75rem;
+			justify-content: center;
+		}
+		
+		.lang-btn {
+			display: inline-flex;
+			align-items: center;
+			gap: 0.5rem;
+			padding: 0.625rem 1.25rem;
+			border-radius: 9999px;
+			background-color: rgba(255, 255, 255, 0.05);
+			color: rgba(255, 255, 255, 0.7);
+			font-size: 0.875rem;
+			font-weight: 500;
+			text-decoration: none;
+			transition: all 0.3s;
+		}
+		
+		.lang-btn:hover {
+			background-color: #F7D051;
+			color: #253142;
+		}
+		
+		.lang-btn span {
+			width: 1.25rem;
+			height: 1.25rem;
+			border-radius: 50%;
+			background-color: rgba(255, 255, 255, 0.1);
+			display: flex;
+			align-items: center;
+			justify-content: center;
+			font-size: 0.75rem;
+			font-weight: 700;
+		}
+		
+		/* Animations */
+		@keyframes spin {
+			to { transform: rotate(360deg); }
+		}
+		
+		@keyframes pulse-glow {
+			0%, 100% { opacity: 0.3; transform: scale(1); }
+			50% { opacity: 0.6; transform: scale(1.1); }
+		}
+		
+		@keyframes fade-in {
+			from { opacity: 0; transform: translateY(10px); }
+			to { opacity: 1; transform: translateY(0); }
+		}
+	</style>
 </head>
 <body>
-	<p>Redirecting to <a href="/fr/">/fr/</a>...</p>
+	<!-- Background decoration -->
+	<div class="bg-glow">
+		<div class="bg-glow-1"></div>
+		<div class="bg-glow-2"></div>
+	</div>
+	
+	<div class="container">
+		<!-- Logo -->
+		<div class="logo">
+			<img 
+				src="/images/logo.png" 
+				alt="D.E.B TOUT CORPS" 
+			/>
+		</div>
+		
+		<!-- Spinner -->
+		<div class="spinner-wrap">
+			<div class="spinner"></div>
+			<div class="spinner-dot">
+				<div class="spinner-dot-inner"></div>
+			</div>
+		</div>
+		
+		<!-- Text -->
+		<div class="text-content">
+			<h1>{t('redirect.title')}</h1>
+			<p class="subtitle">{t('redirect.subtitle')}</p>
+			<p class="manual">
+				{t('redirect.manual')} <a href="/fr/">{t('redirect.clickHere')}</a>.
+			</p>
+		</div>
+		
+		<!-- Language options -->
+		<div class="lang-selector">
+			<p class="lang-label">Choisir la langue / Seleccionar idioma</p>
+			<div class="lang-buttons">
+				<a href="/fr/" class="lang-btn">
+					<span>FR</span>
+					Français
+				</a>
+				<a href="/es/" class="lang-btn">
+					<span>ES</span>
+					Español
+				</a>
+			</div>
+		</div>
+	</div>
+	
+	<script>
+		// If JavaScript is available, redirect after 2 seconds
+		setTimeout(function() {
+			window.location.href = '/fr/';
+		}, 2000);
+	</script>
 </body>
 </html>

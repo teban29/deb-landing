@@ -103,4 +103,70 @@ const t = useTranslations(lang);
 			</div>
 		</div>
 	</section>
+
+	<!-- Process / Work in Progress -->
+	<section class="py-24 lg:py-32 bg-deb-white">
+		<div class="max-w-7xl mx-auto px-6 lg:px-8">
+			<div class="text-center mb-16">
+				<span class="inline-block text-sm font-semibold tracking-widest uppercase text-deb-gold mb-4">
+					{t('about.process.eyebrow')}
+				</span>
+				<h2 class="text-3xl sm:text-4xl lg:text-5xl font-semibold text-deb-dark tracking-tight mb-6">
+					{t('about.process.title')}
+				</h2>
+				<p class="text-lg text-deb-gray max-w-2xl mx-auto">
+					{t('about.process.subtitle')}
+				</p>
+			</div>
+
+			<!-- Masonry Grid -->
+			<div class="masonry-grid">
+				{[
+					'/images/before/project-01.webp',
+					'/images/before/project-02.webp',
+					'/images/before/project-03.webp',
+					'/images/before/project-04.webp',
+					'/images/before/project-05.webp',
+					'/images/before/project-06.webp',
+					'/images/before/project-07.webp',
+					'/images/before/project-09.webp',
+					'/images/before/project-10.webp',
+					'/images/before/project-11.webp',
+					'/images/before/project-12.webp',
+					'/images/before/project-13.webp',
+					'/images/before/project-14.webp',
+					'/images/before/project-17.webp',
+					'/images/before/project-19.webp',
+					'/images/before/project-20.webp',
+					'/images/before/project-22.webp',
+					'/images/before/project-23.webp',
+					'/images/before/project-24.webp',
+					'/images/before/project-26.webp',
+					'/images/before/project-27.webp',
+					'/images/before/project-29.webp',
+					'/images/before/project-30.webp',
+				].map((src, index) => (
+					<div class="masonry-item group relative rounded-2xl overflow-hidden bg-deb-gray cursor-pointer img-zoom">
+						<img 
+							src={src} 
+							alt={`Travaux ${index + 1}`}
+							loading="lazy"
+						/>
+						<div class="absolute inset-0 bg-gradient-to-t from-deb-dark/60 via-deb-dark/10 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500 z-10" />
+						<div class="absolute inset-0 flex items-end p-5 z-20 opacity-0 group-hover:opacity-100 transition-opacity duration-500">
+							<div class="transform translate-y-3 group-hover:translate-y-0 transition-transform duration-500">
+								<span class="inline-flex items-center gap-2 text-deb-gold text-sm font-medium">
+									<svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+										<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"/>
+										<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"/>
+									</svg>
+									{lang === 'fr' ? 'Aperçu chantier' : 'Vista obra'}
+								</span>
+							</div>
+						</div>
+					</div>
+				))}
+			</div>
+		</div>
+	</section>
 </Layout>

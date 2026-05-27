@@ -171,6 +171,23 @@ export const ui = {
 		'contact.info.hoursValue': 'Lun - Ven: 8h00 - 18h00',
 		'contact.map.title': 'Zone d\'intervention',
 		
+		// 404
+		'404.title': 'Page introuvable',
+		'404.subtitle': "La page que vous recherchez n'existe pas ou a été déplacée.",
+		'404.backHome': "Retour à l'accueil",
+		'404.exploreServices': 'Découvrir nos services',
+		
+		// Redirect
+		'redirect.title': 'Redirection en cours...',
+		'redirect.subtitle': "Vous allez être redirigé vers la version française du site.",
+		'redirect.manual': "Si la redirection ne fonctionne pas,",
+		'redirect.clickHere': 'cliquez ici',
+		
+		// Process
+		'about.process.eyebrow': 'En action',
+		'about.process.title': 'Le processus derrière l\'excellence',
+		'about.process.subtitle': 'Des clichés de nos chantiers qui illustrent notre rigueur, notre savoir-faire et notre engagement sur le terrain.',
+		
 		// Meta
 		'meta.homeTitle': 'D.E.B TOUT CORPS | Rénovation et Peinture',
 		'meta.homeDesc': "Entreprise de bâtiment spécialisée en rénovation complète. Électricité, plomberie, carrelage, parquet, peinture et ponçage.",
@@ -340,6 +357,23 @@ export const ui = {
 		'contact.info.hours': 'Horario',
 		'contact.info.hoursValue': 'Lun - Vie: 8:00 - 18:00',
 		'contact.map.title': 'Zona de intervención',
+		
+		// 404
+		'404.title': 'Página no encontrada',
+		'404.subtitle': 'La página que busca no existe o ha sido movida.',
+		'404.backHome': 'Volver al inicio',
+		'404.exploreServices': 'Explorar servicios',
+		
+		// Redirect
+		'redirect.title': 'Redirigiendo...',
+		'redirect.subtitle': 'Será redirigido a la versión española del sitio.',
+		'redirect.manual': 'Si la redirección no funciona,',
+		'redirect.clickHere': 'haga clic aquí',
+		
+		// Process
+		'about.process.eyebrow': 'En acción',
+		'about.process.title': 'El proceso detrás de la excelencia',
+		'about.process.subtitle': 'Fotos de nuestras obras que ilustran nuestra rigurosidad, nuestro saber hacer y nuestro compromiso en el terreno.',
 		
 		// Meta
 		'meta.homeTitle': 'D.E.B TOUT CORPS | Reformas y Pintura',
