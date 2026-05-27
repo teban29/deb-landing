@@ -9,9 +9,10 @@ interface Props {
 	title?: string;
 	description?: string;
 	image?: string;
+	noindex?: boolean;
 }
 
-const { title, description, image } = Astro.props;
+const { title, description, image, noindex = false } = Astro.props;
 const lang = getLangFromUrl(Astro.url);
 const t = useTranslations(lang);
 
@@ -20,8 +21,39 @@ const defaultTitle = t('meta.homeTitle');
 const defaultDesc = t('meta.homeDesc');
 const finalTitle = title ? `${title} | ${siteName}` : defaultTitle;
 const finalDesc = description || defaultDesc;
-const ogImage = image || '/og-image.webp';
-const canonicalURL = Astro.site ? new URL(Astro.url.pathname, Astro.site) : new URL(Astro.url.pathname, 'https://deb-toutcorps.fr');
+const ogImage = image || '/images/logo-deb.jpeg';
+const siteUrl = Astro.site?.toString().replace(/\/$/, '') ?? 'https://deb-toutcorps.fr';
+const canonicalURL = `${siteUrl}${Astro.url.pathname}`;
+const ogImageURL = ogImage.startsWith('http') ? ogImage : `${siteUrl}${ogImage}`;
+
+const frUrl = `${siteUrl}${Astro.url.pathname.replace(/^\/(fr|es)\//, '/fr/')}`;
+const esUrl = `${siteUrl}${Astro.url.pathname.replace(/^\/(fr|es)\//, '/es/')}`;
+
+const schemaOrg = {
+	'@context': 'https://schema.org',
+	'@type': 'LocalBusiness',
+	name: 'D.E.B TOUT CORPS',
+	image: `${siteUrl}/images/logo-deb.jpeg`,
+	logo: `${siteUrl}/images/logo-deb.jpeg`,
+	description: lang === 'fr'
+		? 'Entreprise de bâtiment spécialisée en rénovation complète. Électricité, plomberie, carrelage, parquet, peinture et ponçage.'
+		: 'Empresa de construcción especializada en reformas integrales. Electricidad, fontanería, alicatado, parquet, pintura y lijado.',
+	url: siteUrl,
+	telephone: '+33-7-67-59-75-08',
+	email: 'professionnels.renovation@gmail.com',
+	address: {
+		'@type': 'PostalAddress',
+		addressCountry: 'FR',
+	},
+	areaServed: {
+		'@type': 'Country',
+		name: lang === 'fr' ? 'France' : 'Francia',
+	},
+	serviceType: [
+		'Électricité', 'Plomberie', 'Carrelage', 'Parquet', 'Peinture', 'Ponçage',
+	],
+	priceRange: '€€',
+};
 ---
 
 <!doctype html>
@@ -31,54 +63,61 @@ const canonicalURL = Astro.site ? new URL(Astro.url.pathname, Astro.site) : new 
 		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
 		<meta name="generator" content={Astro.generator} />
 		<meta name="description" content={finalDesc} />
-		<meta name="robots" content="index, follow" />
-		
+		<meta name="robots" content={noindex ? 'noindex, nofollow' : 'index, follow, max-snippet:-1, max-image-preview:large, max-video-preview:-1'} />
+		<meta name="author" content="D.E.B TOUT CORPS" />
+		<meta name="theme-color" content="#253142" />
+		<meta name="geo.region" content="FR" />
+		<meta name="geo.placename" content="France" />
+
 		<!-- Open Graph -->
 		<meta property="og:type" content="website" />
+		<meta property="og:site_name" content={siteName} />
 		<meta property="og:title" content={finalTitle} />
 		<meta property="og:description" content={finalDesc} />
-		<meta property="og:image" content={ogImage} />
+		<meta property="og:image" content={ogImageURL} />
+		<meta property="og:image:width" content="1200" />
+		<meta property="og:image:height" content="630" />
 		<meta property="og:url" content={canonicalURL} />
 		<meta property="og:locale" content={lang === 'fr' ? 'fr_FR' : 'es_ES'} />
-		
+
 		<!-- Twitter -->
 		<meta name="twitter:card" content="summary_large_image" />
 		<meta name="twitter:title" content={finalTitle} />
 		<meta name="twitter:description" content={finalDesc} />
-		<meta name="twitter:image" content={ogImage} />
-		
+		<meta name="twitter:image" content={ogImageURL} />
+
 		<!-- Favicon -->
-		<link rel="icon" type="image/svg+xml" href="/favicon.svg" />
-		<link rel="apple-touch-icon" href="/apple-touch-icon.png" />
-		
+		<link rel="icon" type="image/jpeg" href="/images/logo-deb.jpeg" />
+		<link rel="shortcut icon" type="image/jpeg" href="/images/logo-deb.jpeg" />
+		<link rel="apple-touch-icon" href="/images/logo-deb.jpeg" />
+
 		<!-- Canonical -->
 		<link rel="canonical" href={canonicalURL} />
-		
+
 		<!-- Alternate languages -->
-		<link rel="alternate" hreflang="fr" href={Astro.site ? new URL(Astro.url.pathname.replace(/^\/(fr|es)\//, '/fr/'), Astro.site) : new URL(Astro.url.pathname.replace(/^\/(fr|es)\//, '/fr/'), 'https://deb-toutcorps.fr')} />
-		<link rel="alternate" hreflang="es" href={Astro.site ? new URL(Astro.url.pathname.replace(/^\/(fr|es)\//, '/es/'), Astro.site) : new URL(Astro.url.pathname.replace(/^\/(fr|es)\//, '/es/'), 'https://deb-toutcorps.fr')} />
-		
+		<link rel="alternate" hreflang="fr" href={frUrl} />
+		<link rel="alternate" hreflang="es" href={esUrl} />
+		<link rel="alternate" hreflang="x-default" href={frUrl} />
+
 		<title>{finalTitle}</title>
-		
-		<!-- Fonts -->
-		<link rel="preconnect" href="https://fonts.googleapis.com" />
+
+		<!-- Performance: preconnect & dns-prefetch -->
+		<link rel="dns-prefetch" href="https://fonts.googleapis.com" />
+		<link rel="dns-prefetch" href="https://fonts.gstatic.com" />
+		<link rel="preconnect" href="https://fonts.googleapis.com" crossorigin />
 		<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-		<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet" />
-		
+
+		<!-- Preload critical font subset for LCP -->
+		<link rel="preload" as="style" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&display=swap" />
+		<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" media="print" onload="this.media='all'" />
+		<noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" /></noscript>
+
+		<!-- Prefetch likely next pages -->
+		<link rel="prefetch" href={`/${lang}/services`} />
+		<link rel="prefetch" href={`/${lang}/contact`} />
+
 		<!-- Schema.org -->
-		<script type="application/ld+json" set:html={JSON.stringify({
-			"@context": "https://schema.org",
-			"@type": "LocalBusiness",
-			"name": "D.E.B TOUT CORPS",
-			"description": lang === 'fr' 
-				? "Entreprise de bâtiment spécialisée en rénovation complète"
-				: "Empresa de construcción especializada en reformas integrales",
-			"url": canonicalURL,
-			"areaServed": "France",
-			"serviceType": [
-				"Électricité", "Plomberie", "Carrelage", "Parquet", "Peinture", "Ponçage"
-			]
-		})} />
+		<script type="application/ld+json" set:html={JSON.stringify(schemaOrg)} />
 	</head>
 	<body class="min-h-screen bg-deb-cream text-deb-dark antialiased">
 		<Navbar />

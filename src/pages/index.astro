@@ -12,15 +12,21 @@ const t = useTranslations(lang);
 	<meta charset="utf-8" />
 	<meta name="viewport" content="width=device-width, initial-scale=1.0" />
 	<meta http-equiv="refresh" content="2;url=/fr/" />
-	<link rel="canonical" href="/fr/" />
+	<link rel="canonical" href="https://deb-toutcorps.fr/fr/" />
 	<meta name="robots" content="noindex, nofollow" />
+	<meta name="theme-color" content="#253142" />
 	<title>{t('redirect.title')} | D.E.B TOUT CORPS</title>
-	<link rel="icon" type="image/svg+xml" href="/favicon.svg" />
-	
+	<link rel="icon" type="image/jpeg" href="/images/logo-deb.jpeg" />
+	<link rel="shortcut icon" type="image/jpeg" href="/images/logo-deb.jpeg" />
+
 	<!-- Fonts -->
-	<link rel="preconnect" href="https://fonts.googleapis.com" />
+	<link rel="dns-prefetch" href="https://fonts.googleapis.com" />
+	<link rel="dns-prefetch" href="https://fonts.gstatic.com" />
+	<link rel="preconnect" href="https://fonts.googleapis.com" crossorigin />
 	<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-	<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet" />
+	<link rel="preload" as="style" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&display=swap" />
+	<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" media="print" onload="this.media='all'" />
+	<noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" /></noscript>
 	
 	<style>
 		* { margin: 0; padding: 0; box-sizing: border-box; }
@@ -241,9 +247,12 @@ const t = useTranslations(lang);
 	<div class="container">
 		<!-- Logo -->
 		<div class="logo">
-			<img 
-				src="/images/logo.png" 
-				alt="D.E.B TOUT CORPS" 
+			<img
+				src="/images/logo-deb.jpeg"
+				alt="D.E.B TOUT CORPS"
+				width="200"
+				height="80"
+				decoding="async"
 			/>
 		</div>
 		
