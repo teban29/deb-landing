@@ -188,6 +188,20 @@ export const ui = {
 		'about.process.title': 'Le processus derrière l\'excellence',
 		'about.process.subtitle': 'Des clichés de nos chantiers qui illustrent notre rigueur, notre savoir-faire et notre engagement sur le terrain.',
 		
+		// Before / After
+		'beforeAfter.title': 'Avant / Après',
+		'beforeAfter.subtitle': 'Découvrez la transformation complète de nos projets à travers des comparaisons avant et après.',
+		'beforeAfter.cta': 'Voir la transformation',
+		'beforeAfter.prev': 'Projet précédent',
+		'beforeAfter.next': 'Projet suivant',
+		'beforeAfter.close': 'Fermer',
+		'beforeAfter.01.title': 'Salon après rénovation complète',
+		'beforeAfter.02.title': 'Chambre modernisée',
+		'beforeAfter.03.title': 'Salle de bain entièrement refaite',
+		'beforeAfter.04.title': 'Cuisine ouverte rénovée',
+		'beforeAfter.05.title': 'Rénovation salle d\'eau',
+		'beforeAfter.06.title': 'Couloir et entrée réaménagés',
+		
 		// Meta
 		'meta.homeTitle': 'D.E.B TOUT CORPS | Rénovation et Peinture',
 		'meta.homeDesc': "Entreprise de bâtiment spécialisée en rénovation complète. Électricité, plomberie, carrelage, parquet, peinture et ponçage.",
@@ -374,6 +388,20 @@ export const ui = {
 		'about.process.eyebrow': 'En acción',
 		'about.process.title': 'El proceso detrás de la excelencia',
 		'about.process.subtitle': 'Fotos de nuestras obras que ilustran nuestra rigurosidad, nuestro saber hacer y nuestro compromiso en el terreno.',
+		
+		// Before / After
+		'beforeAfter.title': 'Antes / Después',
+		'beforeAfter.subtitle': 'Descubra la transformación completa de nuestros proyectos a través de comparaciones antes y después.',
+		'beforeAfter.cta': 'Ver la transformación',
+		'beforeAfter.prev': 'Proyecto anterior',
+		'beforeAfter.next': 'Proyecto siguiente',
+		'beforeAfter.close': 'Cerrar',
+		'beforeAfter.01.title': 'Salón tras reforma integral',
+		'beforeAfter.02.title': 'Dormitorio modernizado',
+		'beforeAfter.03.title': 'Baño completamente renovado',
+		'beforeAfter.04.title': 'Cocina abierta reformada',
+		'beforeAfter.05.title': 'Reforma de aseo',
+		'beforeAfter.06.title': 'Pasillo y entrada reorganizados',
 		
 		// Meta
 		'meta.homeTitle': 'D.E.B TOUT CORPS | Reformas y Pintura',

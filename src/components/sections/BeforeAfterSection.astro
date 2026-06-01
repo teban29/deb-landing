@@ -1,0 +1,52 @@
+---
+import SectionHeader from '../ui/SectionHeader.astro';
+import BeforeAfterSlider from '../ui/BeforeAfterSlider.astro';
+import { getLangFromUrl, useTranslations } from '../../i18n/utils';
+import { beforeAfterProjects } from '../../data/beforeAfterProjects';
+
+const lang = getLangFromUrl(Astro.url);
+const t = useTranslations(lang);
+const projects = beforeAfterProjects;
+---
+
+<section class="py-24 lg:py-32 bg-deb-white">
+	<div class="max-w-7xl mx-auto px-6 lg:px-8">
+		<SectionHeader
+			eyebrow={t('beforeAfter.title')}
+			title={lang === 'fr' ? 'La transformation en un coup d\'œil' : 'La transformación de un vistazo'}
+			description={t('beforeAfter.subtitle')}
+		/>
+
+		<div class="mt-16 max-w-5xl mx-auto space-y-16">
+			{projects.map((project, index) => (
+				<article class="group" data-aos="fade-up" data-aos-delay={index * 100}>
+					<BeforeAfterSlider
+						before={project.before}
+						after={project.after}
+						label={t(project.titleKey)}
+					/>
+					<div class="mt-5 flex flex-col sm:flex-row sm:items-center sm:justify-between gap-2">
+						<div class="flex items-center gap-3">
+							<span class="inline-flex items-center justify-center w-8 h-8 rounded-full bg-deb-gold/20 text-deb-dark text-sm font-bold">
+								{String(index + 1).padStart(2, '0')}
+							</span>
+						</div>
+
+					</div>
+				</article>
+			))}
+		</div>
+
+		<div class="text-center mt-20">
+			<a
+				href={`/${lang}/gallery`}
+				class="inline-flex items-center px-8 py-4 bg-deb-dark text-deb-white font-medium rounded-full hover:bg-deb-gray transition-all duration-300 hover:shadow-lg hover:-translate-y-0.5"
+			>
+				{t('beforeAfter.cta')}
+				<svg class="w-5 h-5 ml-2" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+					<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 8l4 4m0 0l-4 4m4-4H3"/>
+				</svg>
+			</a>
+		</div>
+	</div>
+</section>
