@@ -3,52 +3,100 @@ interface Props {
 	before: string;
 	after: string;
 	label: string;
+	beforeVideo?: string;
+	afterVideo?: string;
 }
 
-const { before, after, label } = Astro.props;
+const { before, after, label, beforeVideo, afterVideo } = Astro.props;
+const isVideo = Boolean(beforeVideo) || Boolean(afterVideo);
 ---
 
-<div class="relative overflow-hidden rounded-2xl bg-deb-gray flex">
-	<!-- Before: left half -->
-	<div class="relative w-1/2 h-80 md:h-96 lg:h-[28rem] overflow-hidden">
-		<img
-			src={before}
-			alt={`Avant : ${label}`}
-			class="w-full h-full object-cover"
-			loading="lazy"
-			decoding="async"
-		/>
-		<div class="absolute bottom-4 left-4 z-10">
-			<span class="inline-block px-3 py-1.5 rounded-md bg-deb-dark/80 backdrop-blur-sm text-white text-xs font-semibold uppercase tracking-wider">
-				Avant
-			</span>
-		</div>
-	</div>
+{
+	isVideo ? (
+		<div class="relative overflow-hidden rounded-2xl bg-deb-gray flex">
+			<!-- Before: left half -->
+			<div class="relative w-1/2 h-80 md:h-96 lg:h-[28rem] overflow-hidden">
+				<video
+					src={beforeVideo}
+					autoplay muted loop controls playsinline
+					class="w-full h-full object-cover"
+				/>
+				<div class="absolute bottom-4 left-4 z-10">
+					<span class="inline-block px-3 py-1.5 rounded-md bg-deb-dark/80 backdrop-blur-sm text-white text-xs font-semibold uppercase tracking-wider">
+						Avant
+					</span>
+				</div>
+			</div>
 
-	<!-- Divider + Arrow -->
-	<div class="absolute left-1/2 top-4 bottom-4 -translate-x-px z-20 flex flex-col items-center justify-between py-4">
-		<div class="w-0.5 flex-1 bg-white/60 rounded-full" />
-		<div class="flex items-center justify-center w-10 h-10 rounded-full bg-deb-gold shadow-lg my-2">
-			<svg class="w-5 h-5 text-deb-dark" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
-				<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M17 8l4 4m0 0l-4 4m4-4H3"/>
-			</svg>
-		</div>
-		<div class="w-0.5 flex-1 bg-white/60 rounded-full" />
-	</div>
+			<!-- Divider + Arrow -->
+			<div class="absolute left-1/2 top-4 bottom-4 -translate-x-px z-20 flex flex-col items-center justify-between py-4">
+				<div class="w-0.5 flex-1 bg-white/60 rounded-full" />
+				<div class="flex items-center justify-center w-10 h-10 rounded-full bg-deb-gold shadow-lg my-2">
+					<svg class="w-5 h-5 text-deb-dark" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+						<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M17 8l4 4m0 0l-4 4m4-4H3"/>
+					</svg>
+				</div>
+				<div class="w-0.5 flex-1 bg-white/60 rounded-full" />
+			</div>
 
-	<!-- After: right half -->
-	<div class="relative w-1/2 h-80 md:h-96 lg:h-[28rem] overflow-hidden">
-		<img
-			src={after}
-			alt={`Après : ${label}`}
-			class="w-full h-full object-cover"
-			loading="lazy"
-			decoding="async"
-		/>
-		<div class="absolute bottom-4 right-4 z-10">
-			<span class="inline-block px-3 py-1.5 rounded-md bg-deb-gold/90 backdrop-blur-sm text-deb-dark text-xs font-semibold uppercase tracking-wider">
-				Après
-			</span>
+			<!-- After: right half -->
+			<div class="relative w-1/2 h-80 md:h-96 lg:h-[28rem] overflow-hidden">
+				<video
+					src={afterVideo}
+					autoplay muted loop controls playsinline
+					class="w-full h-full object-cover"
+				/>
+				<div class="absolute bottom-4 right-4 z-10">
+					<span class="inline-block px-3 py-1.5 rounded-md bg-deb-gold/90 backdrop-blur-sm text-deb-dark text-xs font-semibold uppercase tracking-wider">
+						Après
+					</span>
+				</div>
+			</div>
 		</div>
-	</div>
-</div>
+	) : (
+		<div class="relative overflow-hidden rounded-2xl bg-deb-gray flex">
+			<!-- Before: left half -->
+			<div class="relative w-1/2 h-80 md:h-96 lg:h-[28rem] overflow-hidden">
+				<img
+					src={before}
+					alt={`Avant : ${label}`}
+					class="w-full h-full object-cover"
+					loading="lazy"
+					decoding="async"
+				/>
+				<div class="absolute bottom-4 left-4 z-10">
+					<span class="inline-block px-3 py-1.5 rounded-md bg-deb-dark/80 backdrop-blur-sm text-white text-xs font-semibold uppercase tracking-wider">
+						Avant
+					</span>
+				</div>
+			</div>
+
+			<!-- Divider + Arrow -->
+			<div class="absolute left-1/2 top-4 bottom-4 -translate-x-px z-20 flex flex-col items-center justify-between py-4">
+				<div class="w-0.5 flex-1 bg-white/60 rounded-full" />
+				<div class="flex items-center justify-center w-10 h-10 rounded-full bg-deb-gold shadow-lg my-2">
+					<svg class="w-5 h-5 text-deb-dark" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+						<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M17 8l4 4m0 0l-4 4m4-4H3"/>
+					</svg>
+				</div>
+				<div class="w-0.5 flex-1 bg-white/60 rounded-full" />
+			</div>
+
+			<!-- After: right half -->
+			<div class="relative w-1/2 h-80 md:h-96 lg:h-[28rem] overflow-hidden">
+				<img
+					src={after}
+					alt={`Après : ${label}`}
+					class="w-full h-full object-cover"
+					loading="lazy"
+					decoding="async"
+				/>
+				<div class="absolute bottom-4 right-4 z-10">
+					<span class="inline-block px-3 py-1.5 rounded-md bg-deb-gold/90 backdrop-blur-sm text-deb-dark text-xs font-semibold uppercase tracking-wider">
+						Après
+					</span>
+				</div>
+			</div>
+		</div>
+	)
+}

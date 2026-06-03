@@ -135,6 +135,16 @@
 	}
 }
 
+@keyframes marquee {
+	from { transform: translate3d(0, 0, 0); }
+	to   { transform: translate3d(-50%, 0, 0); }
+}
+
+@keyframes marqueeReverse {
+	from { transform: translate3d(-50%, 0, 0); }
+	to   { transform: translate3d(0, 0, 0); }
+}
+
 /* ===== UTILITY CLASSES ===== */
 @layer utilities {
 	.text-balance {
@@ -182,6 +192,30 @@
 	.delay-600 { animation-delay: 600ms; }
 	.delay-700 { animation-delay: 700ms; }
 	.delay-800 { animation-delay: 800ms; }
+
+	/* Marquee (infinite carousel) */
+	.marquee-track {
+		display: flex;
+		width: max-content;
+		gap: 1.25rem;
+		will-change: transform;
+		animation: marquee 50s linear infinite;
+	}
+
+	.marquee-track-reverse {
+		animation: marqueeReverse 55s linear infinite;
+	}
+
+	.marquee-viewport {
+		overflow: hidden;
+		mask-image: linear-gradient(to right, transparent 0, black 6%, black 94%, transparent 100%);
+		-webkit-mask-image: linear-gradient(to right, transparent 0, black 6%, black 94%, transparent 100%);
+	}
+
+	.marquee-viewport:hover .marquee-track,
+	.marquee-viewport:hover .marquee-track-reverse {
+		animation-play-state: paused;
+	}
 
 	/* Premium hover effects */
 	.hover-lift {

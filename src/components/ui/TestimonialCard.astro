@@ -1,0 +1,42 @@
+---
+import StarRating from './StarRating.astro';
+import GoogleBadge from './GoogleBadge.astro';
+
+interface Props {
+	text: string;
+	author: string;
+	rating: number;
+	date: string;
+}
+
+const { text, author, rating, date } = Astro.props;
+const initial = author.trim().charAt(0).toUpperCase();
+---
+
+<article
+	class="group w-[320px] sm:w-[360px] md:w-[400px] shrink-0 bg-deb-white rounded-2xl p-6 md:p-7 border border-deb-light-gray/60 shadow-sm hover:shadow-xl hover:border-deb-gold/40 transition-all duration-300"
+>
+	<header class="flex items-center justify-between mb-4">
+		<GoogleBadge size="sm" />
+		<span class="text-xs text-deb-gray-muted">{date}</span>
+	</header>
+
+	<StarRating rating={rating} size={18} />
+
+	<p class="mt-4 text-deb-dark leading-relaxed text-[15px] line-clamp-4">
+		{text}
+	</p>
+
+	<footer class="mt-6 flex items-center gap-3 pt-5 border-t border-deb-light-gray/60">
+		<div
+			class="w-10 h-10 rounded-full bg-deb-gold/20 flex items-center justify-center shrink-0"
+			aria-hidden="true"
+		>
+			<span class="text-deb-gold-dark font-semibold text-sm">{initial}</span>
+		</div>
+		<div class="min-w-0">
+			<p class="font-semibold text-deb-dark text-sm truncate">{author}</p>
+			<p class="text-deb-gray-muted text-xs">Avis vérifié</p>
+		</div>
+	</footer>
+</article>

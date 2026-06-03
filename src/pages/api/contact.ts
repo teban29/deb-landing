@@ -1,7 +1,9 @@
 import type { APIRoute } from 'astro';
 import { Resend } from 'resend';
 
-const TO_EMAIL = 'professionnels.renovation@gmail.com';
+export const prerender = false;
+
+const TO_EMAIL = 'ecardonagonzalez1029@gmail.com';
 const FROM_EMAIL = 'onboarding@resend.dev';
 
 export const POST: APIRoute = async ({ request }) => {
@@ -107,7 +109,8 @@ export const POST: APIRoute = async ({ request }) => {
 			JSON.stringify({ success: true }),
 			{ status: 200, headers: { 'Content-Type': 'application/json' } }
 		);
-	} catch {
+	} catch (err) {
+		console.error('Contact API error:', err);
 		return new Response(
 			JSON.stringify({ success: false, error: 'Erreur serveur.' }),
 			{ status: 500, headers: { 'Content-Type': 'application/json' } }

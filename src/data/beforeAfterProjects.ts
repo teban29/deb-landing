@@ -5,6 +5,8 @@ export interface BeforeAfterProject {
 	before: string;
 	after: string;
 	aspectRatio: number;
+	beforeVideo?: string;
+	afterVideo?: string;
 }
 
 export const beforeAfterProjects: BeforeAfterProject[] = [
@@ -55,5 +57,15 @@ export const beforeAfterProjects: BeforeAfterProject[] = [
 		before: '/images/after-before/06/before.webp',
 		after: '/images/after-before/06/after.webp',
 		aspectRatio: 1108 / 2048,
+	},
+	{
+		id: '07',
+		titleKey: 'beforeAfter.07.title',
+		serviceKey: 'peinture',
+		before: '/images/after-before/07/before.webp',
+		after: '/images/after-before/07/after.webp',
+		aspectRatio: 1,
+		beforeVideo: '/videos/before.webm',
+		afterVideo: '/videos/after.webm',
 	},
 ];

@@ -1,51 +1,104 @@
 ---
 import { getLangFromUrl, useTranslations } from '../../i18n/utils';
-import SectionHeader from '../ui/SectionHeader.astro';
+import { testimonials } from '../../data/testimonials';
+import TestimonialCard from '../ui/TestimonialCard.astro';
+import StarRating from '../ui/StarRating.astro';
+import GoogleBadge from '../ui/GoogleBadge.astro';
 
 const lang = getLangFromUrl(Astro.url);
 const t = useTranslations(lang);
 
-const testimonials = [
-	{ textKey: 'testimonial.1.text', authorKey: 'testimonial.1.author', roleKey: 'testimonial.1.role' },
-	{ textKey: 'testimonial.2.text', authorKey: 'testimonial.2.author', roleKey: 'testimonial.2.role' },
-	{ textKey: 'testimonial.3.text', authorKey: 'testimonial.3.author', roleKey: 'testimonial.3.role' },
-];
+const items = testimonials.map((item) => ({
+	text: t(item.textKey as never),
+	author: t(item.authorKey as never),
+	date: t(item.dateKey as never),
+	rating: item.rating,
+}));
+
+const half = Math.ceil(items.length / 2);
+const row1 = items.slice(0, half);
+const row2 = items.slice(half);
 ---
 
-<section class="py-24 lg:py-32 bg-deb-white">
+<section class="py-24 lg:py-32 bg-deb-white overflow-hidden" aria-labelledby="testimonials-heading">
 	<div class="max-w-7xl mx-auto px-6 lg:px-8">
-		<SectionHeader
-			eyebrow={t('testimonials.eyebrow')}
-			title={t('testimonials.title')}
-		/>
-		
-		<div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
-			{testimonials.map((testimonial) => (
-				<div class="bg-deb-cream rounded-2xl p-8 border border-deb-light-gray/50">
-					<div class="mb-6">
-						<svg class="w-10 h-10 text-deb-gold/40" fill="currentColor" viewBox="0 0 24 24">
-							<path d="M14.017 21v-7.391c0-5.704 3.731-9.57 8.983-10.609l.995 2.151c-2.432.917-3.995 3.638-3.995 5.849h4v10h-9.983zm-14.017 0v-7.391c0-5.704 3.748-9.57 9-10.609l.996 2.151c-2.433.917-3.996 3.638-3.996 5.849h3.983v10h-9.983z"/>
-						</svg>
+		<header class="max-w-3xl mx-auto text-center mb-14 lg:mb-20">
+			<div class="flex items-center justify-center gap-3 mb-6">
+				<span class="w-12 h-[2px] bg-deb-gold rounded-full"></span>
+				<span class="text-sm font-semibold tracking-[0.2em] uppercase text-deb-gold">
+					{t('testimonials.eyebrow')}
+				</span>
+				<span class="w-12 h-[2px] bg-deb-gold rounded-full"></span>
+			</div>
+
+			<h2
+				id="testimonials-heading"
+				class="text-3xl sm:text-4xl lg:text-5xl xl:text-6xl font-bold tracking-tight mb-8 leading-[1.1] text-deb-dark"
+			>
+				{t('testimonials.title')}
+			</h2>
+
+			<div class="inline-flex flex-col sm:flex-row items-center gap-4 sm:gap-6 px-6 py-4 bg-deb-cream rounded-2xl border border-deb-light-gray/60">
+				<GoogleBadge size="md" />
+				<div class="hidden sm:block w-px h-10 bg-deb-light-gray"></div>
+				<div class="flex flex-col items-center sm:items-start gap-1">
+					<div class="flex items-center gap-2">
+						<span class="text-2xl font-bold text-deb-dark leading-none">
+							{t('testimonials.rating')}
+						</span>
+						<StarRating rating={5} size={16} />
 					</div>
-					<p class="text-deb-dark leading-relaxed mb-8">
-						{t(testimonial.textKey as keyof typeof import('../../i18n/ui').ui[typeof import('../../i18n/ui').defaultLang])}
-					</p>
-					<div class="flex items-center gap-4">
-						<div class="w-12 h-12 rounded-full bg-deb-gold/20 flex items-center justify-center">
-							<span class="text-deb-gold font-semibold text-sm">
-								{t(testimonial.authorKey as keyof typeof import('../../i18n/ui').ui[typeof import('../../i18n/ui').defaultLang]).charAt(0)}
-							</span>
-						</div>
-						<div>
-							<p class="font-semibold text-deb-dark text-sm">
-								{t(testimonial.authorKey as keyof typeof import('../../i18n/ui').ui[typeof import('../../i18n/ui').defaultLang])}
-							</p>
-							<p class="text-deb-gray text-xs">
-								{t(testimonial.roleKey as keyof typeof import('../../i18n/ui').ui[typeof import('../../i18n/ui').defaultLang])}
-							</p>
-						</div>
-					</div>
+					<span class="text-xs text-deb-gray-light">
+						{t('testimonials.reviewCount')}
+					</span>
 				</div>
+				<a
+					href="https://www.google.com/maps"
+					target="_blank"
+					rel="noopener noreferrer"
+					class="inline-flex items-center gap-2 text-sm font-medium text-deb-dark hover:text-deb-gold-dark transition-colors group"
+					aria-label={t('testimonials.googleCta')}
+				>
+					{t('testimonials.googleCta')}
+					<svg class="w-4 h-4 transition-transform group-hover:translate-x-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+						<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 8l4 4m0 0l-4 4m4-4H3"/>
+					</svg>
+				</a>
+			</div>
+		</header>
+	</div>
+
+	<div
+		class="marquee-viewport"
+		role="region"
+		aria-label={t('testimonials.eyebrow')}
+	>
+		<div class="marquee-track">
+			{[...row1, ...row1].map((item) => (
+				<TestimonialCard
+					text={item.text}
+					author={item.author}
+					date={item.date}
+					rating={item.rating}
+				/>
+			))}
+		</div>
+	</div>
+
+	<div
+		class="marquee-viewport mt-5"
+		role="region"
+		aria-label={t('testimonials.eyebrow')}
+		aria-hidden="true"
+	>
+		<div class="marquee-track marquee-track-reverse">
+			{[...row2, ...row2].map((item) => (
+				<TestimonialCard
+					text={item.text}
+					author={item.author}
+					date={item.date}
+					rating={item.rating}
+				/>
 			))}
 		</div>
 	</div>
