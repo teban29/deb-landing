@@ -15,6 +15,7 @@
     "@astrojs/check": "^0.9.9",
     "@tailwindcss/vite": "^4.3.0",
     "astro": "^6.3.7",
+    "resend": "^6.12.4",
     "tailwindcss": "^4.3.0",
     "typescript": "^6.0.3"
   },
