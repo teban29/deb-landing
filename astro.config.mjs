@@ -1,12 +1,14 @@
 import { defineConfig } from 'astro/config';
 import tailwindcss from '@tailwindcss/vite';
-import vercel from '@astrojs/vercel';
+import node from '@astrojs/node';
 
 export default defineConfig({
+	site: 'https://deb-tout.com',
 	vite: {
 		plugins: [tailwindcss()]
 	},
-	adapter: vercel(),
+	output: 'server',
+	adapter: node({ mode: 'standalone' }),
 	i18n: {
 		defaultLocale: 'fr',
 		locales: ['fr', 'es'],

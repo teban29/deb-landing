@@ -22,7 +22,7 @@ const defaultDesc = t('meta.homeDesc');
 const finalTitle = title ? `${title} | ${siteName}` : defaultTitle;
 const finalDesc = description || defaultDesc;
 const ogImage = image || '/images/logo-deb.jpeg';
-const siteUrl = Astro.site?.toString().replace(/\/$/, '') ?? 'https://deb-toutcorps.fr';
+const siteUrl = Astro.site?.toString().replace(/\/$/, '') ?? 'https://deb-tout.com';
 const canonicalURL = `${siteUrl}${Astro.url.pathname}`;
 const ogImageURL = ogImage.startsWith('http') ? ogImage : `${siteUrl}${ogImage}`;
 

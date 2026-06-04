@@ -3,14 +3,21 @@ import { Resend } from 'resend';
 
 export const prerender = false;
 
-const TO_EMAIL = 'ecardonagonzalez1029@gmail.com';
-const FROM_EMAIL = 'onboarding@resend.dev';
+const TO_EMAIL = import.meta.env.CONTACT_TO_EMAIL;
+const FROM_EMAIL = import.meta.env.CONTACT_FROM_EMAIL;
 
 export const POST: APIRoute = async ({ request }) => {
 	const apiKey = import.meta.env.RESEND_API_KEY;
 	if (!apiKey) {
 		return new Response(
 			JSON.stringify({ success: false, error: 'Clé API Resend manquante.' }),
+			{ status: 500, headers: { 'Content-Type': 'application/json' } }
+		);
+	}
+
+	if (!TO_EMAIL || !FROM_EMAIL) {
+		return new Response(
+			JSON.stringify({ success: false, error: 'Configuration email manquante.' }),
 			{ status: 500, headers: { 'Content-Type': 'application/json' } }
 		);
 	}
