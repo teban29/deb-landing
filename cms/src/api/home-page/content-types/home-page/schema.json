@@ -1,0 +1,273 @@
+{
+	"kind": "singleType",
+	"collectionName": "home_pages",
+	"info": {
+		"singularName": "home-page",
+		"pluralName": "home-pages",
+		"displayName": "Página de inicio",
+		"description": "Textos e imágenes de la página principal"
+	},
+	"options": {
+		"draftAndPublish": true
+	},
+	"pluginOptions": {
+		"i18n": {
+			"localized": true
+		}
+	},
+	"attributes": {
+		"heroEyebrow": {
+			"type": "string",
+			"pluginOptions": {
+				"i18n": {
+					"localized": true
+				}
+			}
+		},
+		"heroTitleLine1": {
+			"type": "string",
+			"pluginOptions": {
+				"i18n": {
+					"localized": true
+				}
+			}
+		},
+		"heroTitleLine2": {
+			"type": "string",
+			"pluginOptions": {
+				"i18n": {
+					"localized": true
+				}
+			}
+		},
+		"heroTitleHighlight": {
+			"type": "string",
+			"pluginOptions": {
+				"i18n": {
+					"localized": true
+				}
+			}
+		},
+		"heroSubtitle": {
+			"type": "text",
+			"pluginOptions": {
+				"i18n": {
+					"localized": true
+				}
+			}
+		},
+		"heroImage": {
+			"type": "media",
+			"multiple": false,
+			"required": false,
+			"allowedTypes": [
+				"images"
+			],
+			"pluginOptions": {
+				"i18n": {
+					"localized": false
+				}
+			}
+		},
+		"heroPrimaryLabel": {
+			"type": "string",
+			"pluginOptions": {
+				"i18n": {
+					"localized": true
+				}
+			}
+		},
+		"heroSecondaryLabel": {
+			"type": "string",
+			"pluginOptions": {
+				"i18n": {
+					"localized": true
+				}
+			}
+		},
+		"stats": {
+			"type": "component",
+			"repeatable": true,
+			"component": "shared.stat",
+			"pluginOptions": {
+				"i18n": {
+					"localized": true
+				}
+			}
+		},
+		"valueTitle": {
+			"type": "string",
+			"pluginOptions": {
+				"i18n": {
+					"localized": true
+				}
+			}
+		},
+		"valueDescription": {
+			"type": "text",
+			"pluginOptions": {
+				"i18n": {
+					"localized": true
+				}
+			}
+		},
+		"valueCards": {
+			"type": "component",
+			"repeatable": true,
+			"component": "shared.card",
+			"pluginOptions": {
+				"i18n": {
+					"localized": true
+				}
+			}
+		},
+		"servicesTitle": {
+			"type": "string",
+			"pluginOptions": {
+				"i18n": {
+					"localized": true
+				}
+			}
+		},
+		"servicesDescription": {
+			"type": "text",
+			"pluginOptions": {
+				"i18n": {
+					"localized": true
+				}
+			}
+		},
+		"projectsTitle": {
+			"type": "string",
+			"pluginOptions": {
+				"i18n": {
+					"localized": true
+				}
+			}
+		},
+		"projectsDescription": {
+			"type": "text",
+			"pluginOptions": {
+				"i18n": {
+					"localized": true
+				}
+			}
+		},
+		"beforeAfterTitle": {
+			"type": "string",
+			"pluginOptions": {
+				"i18n": {
+					"localized": true
+				}
+			}
+		},
+		"beforeAfterDescription": {
+			"type": "text",
+			"pluginOptions": {
+				"i18n": {
+					"localized": true
+				}
+			}
+		},
+		"whyUsTitle": {
+			"type": "string",
+			"pluginOptions": {
+				"i18n": {
+					"localized": true
+				}
+			}
+		},
+		"whyUsDescription": {
+			"type": "text",
+			"pluginOptions": {
+				"i18n": {
+					"localized": true
+				}
+			}
+		},
+		"whyUsPoints": {
+			"type": "component",
+			"repeatable": true,
+			"component": "shared.text-item",
+			"pluginOptions": {
+				"i18n": {
+					"localized": true
+				}
+			}
+		},
+		"processTitle": {
+			"type": "string",
+			"pluginOptions": {
+				"i18n": {
+					"localized": true
+				}
+			}
+		},
+		"processSteps": {
+			"type": "component",
+			"repeatable": true,
+			"component": "shared.step",
+			"pluginOptions": {
+				"i18n": {
+					"localized": true
+				}
+			}
+		},
+		"testimonialsTitle": {
+			"type": "string",
+			"pluginOptions": {
+				"i18n": {
+					"localized": true
+				}
+			}
+		},
+		"testimonialsDescription": {
+			"type": "text",
+			"pluginOptions": {
+				"i18n": {
+					"localized": true
+				}
+			}
+		},
+		"ctaTitle": {
+			"type": "string",
+			"pluginOptions": {
+				"i18n": {
+					"localized": true
+				}
+			}
+		},
+		"ctaDescription": {
+			"type": "text",
+			"pluginOptions": {
+				"i18n": {
+					"localized": true
+				}
+			}
+		},
+		"ctaButtonLabel": {
+			"type": "string",
+			"pluginOptions": {
+				"i18n": {
+					"localized": true
+				}
+			}
+		},
+		"seoTitle": {
+			"type": "string",
+			"pluginOptions": {
+				"i18n": {
+					"localized": true
+				}
+			}
+		},
+		"seoDescription": {
+			"type": "text",
+			"pluginOptions": {
+				"i18n": {
+					"localized": true
+				}
+			}
+		}
+	}
+}

@@ -1,0 +1,22 @@
+{
+	"collectionName": "components_shared_stats",
+	"info": {
+		"displayName": "Estadística",
+		"icon": "chartBubble",
+		"description": "Cifra destacada con etiqueta"
+	},
+	"options": {},
+	"attributes": {
+		"value": {
+			"type": "string",
+			"required": true
+		},
+		"label": {
+			"type": "string",
+			"required": true
+		},
+		"sublabel": {
+			"type": "string"
+		}
+	}
+}

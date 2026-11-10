@@ -1,5 +1,16 @@
 # build output
 dist/
+cms/build/
+cms/.tmp/
+cms/.cache/
+cms/.strapi/
+
+# uploaded media (local fallback)
+cms/public/uploads/*
+!cms/public/uploads/.gitkeep
+
+# TLS certificates
+docker/certbot/
 
 # generated types
 .astro/

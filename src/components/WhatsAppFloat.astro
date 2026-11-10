@@ -1,10 +1,12 @@
 ---
 import { getLangFromUrl, useTranslations } from '../i18n/utils';
+import { getSiteSettings, type Lang } from '../lib/cms';
 
-const lang = getLangFromUrl(Astro.url);
+const lang = getLangFromUrl(Astro.url) as Lang;
 const t = useTranslations(lang);
+const site = await getSiteSettings(lang);
 
-const phoneNumber = '330767597508';
+const phoneNumber = site?.whatsapp || '330767597508';
 const message = encodeURIComponent(t('contact.whatsapp.message'));
 const whatsappUrl = `https://wa.me/${phoneNumber}?text=${message}`;
 ---

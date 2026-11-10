@@ -1,17 +1,15 @@
 ---
 import { getLangFromUrl, useTranslations } from '../../i18n/utils';
+import { getHomePage, type Lang } from '../../lib/cms';
 import SectionHeader from '../ui/SectionHeader.astro';
 
-const lang = getLangFromUrl(Astro.url);
+const lang = getLangFromUrl(Astro.url) as Lang;
 const t = useTranslations(lang);
+const home = await getHomePage(lang);
 
-const points = [
-	'whyus.point1',
-	'whyus.point2',
-	'whyus.point3',
-	'whyus.point4',
-	'whyus.point5',
-];
+const points = home?.whyUsPoints?.length
+	? home.whyUsPoints
+	: ['whyus.point1', 'whyus.point2', 'whyus.point3', 'whyus.point4', 'whyus.point5'].map((key) => t(key));
 ---
 
 <section class="py-24 lg:py-32 bg-deb-white">
@@ -23,10 +21,10 @@ const points = [
 					{t('whyus.eyebrow')}
 				</span>
 				<h2 class="text-3xl sm:text-4xl lg:text-5xl font-semibold text-deb-dark tracking-tight mb-6">
-					{t('whyus.title')}
+					{home?.whyUsTitle ?? t('whyus.title')}
 				</h2>
 				<p class="text-lg text-deb-gray leading-relaxed mb-10">
-					{t('whyus.desc')}
+					{home?.whyUsDescription ?? t('whyus.desc')}
 				</p>
 				
 				<ul class="space-y-4">
@@ -37,7 +35,7 @@ const points = [
 									<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/>
 								</svg>
 							</div>
-							<span class="text-deb-dark font-medium">{t(point as keyof typeof import('../../i18n/ui').ui[typeof import('../../i18n/ui').defaultLang])}</span>
+							<span class="text-deb-dark font-medium">{point}</span>
 						</li>
 					))}
 				</ul>

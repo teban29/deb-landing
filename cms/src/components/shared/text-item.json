@@ -1,0 +1,15 @@
+{
+	"collectionName": "components_shared_text_items",
+	"info": {
+		"displayName": "Elemento de texto",
+		"icon": "bulletList",
+		"description": "Fila de texto simple"
+	},
+	"options": {},
+	"attributes": {
+		"text": {
+			"type": "string",
+			"required": true
+		}
+	}
+}

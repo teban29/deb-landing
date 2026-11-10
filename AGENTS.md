@@ -10,7 +10,29 @@ Premium multi-page website for **D.E.B TOUT CORPS** — a French construction an
 - `#253142` — Dark blue (primary)
 - `#34404F` — Gray blue (secondary)
 
-**Tech Stack:** Astro 6 (static), Tailwind CSS v4 (CSS-based config, no `tailwind.config.js`), custom i18n (FR/ES), Inter font.
+**Tech Stack:** Astro 6 (SSR), Tailwind CSS v4 (CSS-based config, no `tailwind.config.js`), custom i18n (FR/ES), Inter font.
+
+## CMS & Infrastructure
+
+Content is managed with **Strapi 5** (`cms/`) + **PostgreSQL 16**. Media lives in
+**Cloudflare R2 / S3** when `AWS_*` env vars are set; otherwise local uploads.
+Everything runs through **Docker Compose** (`docker-compose.yml` for dev,
+`docker-compose.prod.yml` for production + Nginx).
+
+- Site reads CMS server-side via `src/lib/cms.ts`.
+- **Never remove the static fallbacks** in components/data: the site must keep
+  working when Strapi is unreachable.
+- Add new localized fields to both `fr` and `es` in the CMS schema and seed.
+- Cache is in-memory (5 min) and cleared by `POST /api/cms-webhook`.
+- Editor role + Spanish admin labels live in `cms/src/seed/admin-ui.ts`.
+- Rate limits and security headers live in `src/middleware.ts` and
+  `docker/nginx.conf`; do not weaken them without a reason.
+
+```bash
+docker compose up -d --build     # site :4400 + CMS :1337 + Postgres
+docker compose logs -f cms
+docker compose down
+```
 
 **Package manager:** pnpm (Node >=22.12.0)
 
@@ -34,6 +56,7 @@ pnpm vitest run --reporter=verbose          # Run all tests verbose
 
 ```
 src/
+  lib/cms.ts         # Strapi client (cache, i18n fallback)
   i18n/              # Translations (ui.ts) + helpers (utils.ts)
   components/
     ui/              # Reusable UI components
@@ -44,9 +67,13 @@ src/
     index.astro      # Root redirect to /fr/
     [lang]/          # FR & ES localized pages
     [lang]/services/ # Dynamic service pages
+    api/             # contact, cms-webhook, health
   styles/
     global.css       # Tailwind v4 theme + animations
-public/images/       # Static assets
+  data/              # Static fallback content
+public/images/       # Static assets (also used for the initial CMS import)
+cms/                 # Strapi 5 app (content types, seed, R2 config)
+docker/nginx.conf    # Production reverse proxy
 ```
 
 ## i18n Architecture

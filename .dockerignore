@@ -1,0 +1,30 @@
+# dependencies
+node_modules
+**/node_modules
+
+# build output
+dist
+.astro
+cms/build
+cms/.tmp
+cms/.cache
+cms/.strapi
+cms/public/uploads
+
+# local env
+.env
+.env.local
+.env.production
+
+# vcs / os
+.git
+.gitignore
+.DS_Store
+
+# docs / local tooling
+README.md
+.opencode
+.vercel
+
+# CMS is built from its own context
+cms

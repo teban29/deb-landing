@@ -1,21 +1,29 @@
 ---
 import Layout from '../../layouts/Layout.astro';
 import ServiceCard from '../../components/ui/ServiceCard.astro';
-import SectionHeader from '../../components/ui/SectionHeader.astro';
 import CTABanner from '../../components/sections/CTABanner.astro';
 import { getLangFromUrl, useTranslations } from '../../i18n/utils';
+import { getAllServices, type Lang } from '../../lib/cms';
 
-const lang = getLangFromUrl(Astro.url);
+const lang = getLangFromUrl(Astro.url) as Lang;
 const t = useTranslations(lang);
 
-const services = [
-	{ id: 'electricite', icon: 'electricite' },
-	{ id: 'plomberie', icon: 'plomberie' },
-	{ id: 'carrelage', icon: 'carrelage' },
-	{ id: 'parquet', icon: 'parquet' },
-	{ id: 'peinture', icon: 'peinture' },
-	{ id: 'poncage', icon: 'poncage' },
-];
+const fallbackServices = ['electricite', 'plomberie', 'carrelage', 'parquet', 'peinture', 'poncage'];
+const cmsServices = await getAllServices(lang);
+
+const services = cmsServices.length
+	? cmsServices.map((service) => ({
+			slug: service.slug,
+			icon: service.icon,
+			name: service.name,
+			description: service.shortDescription,
+		}))
+	: fallbackServices.map((slug) => ({
+			slug,
+			icon: slug,
+			name: t(`service.${slug}`),
+			description: t(`service.${slug}.desc`),
+		}));
 ---
 
 <Layout title={t('servicesPage.title')}>
@@ -40,7 +48,12 @@ const services = [
 		<div class="max-w-7xl mx-auto px-6 lg:px-8">
 			<div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 lg:gap-8">
 				{services.map((service) => (
-					<ServiceCard service={service.id} icon={service.icon} />
+					<ServiceCard
+						service={service.slug}
+						icon={service.icon}
+						name={service.name}
+						description={service.description}
+					/>
 				))}
 			</div>
 		</div>
