@@ -1,23 +1,39 @@
 ---
 import { getLangFromUrl, useTranslations } from '../../i18n/utils';
 import { testimonials } from '../../data/testimonials';
+import { getHomePage, getSiteSettings, getTestimonials, type Lang } from '../../lib/cms';
 import TestimonialCard from '../ui/TestimonialCard.astro';
 import StarRating from '../ui/StarRating.astro';
 import GoogleBadge from '../ui/GoogleBadge.astro';
 
-const lang = getLangFromUrl(Astro.url);
+const lang = getLangFromUrl(Astro.url) as Lang;
 const t = useTranslations(lang);
 
-const items = testimonials.map((item) => ({
-	text: t(item.textKey as never),
-	author: t(item.authorKey as never),
-	date: t(item.dateKey as never),
-	rating: item.rating,
-}));
+const [cmsTestimonials, home, site] = await Promise.all([
+	getTestimonials(lang),
+	getHomePage(lang),
+	getSiteSettings(lang),
+]);
+
+const items = cmsTestimonials.length
+	? cmsTestimonials.map((item) => ({
+			text: item.text,
+			author: item.author,
+			date: item.dateLabel,
+			rating: item.rating,
+		}))
+	: testimonials.map((item) => ({
+			text: t(item.textKey as never),
+			author: t(item.authorKey as never),
+			date: t(item.dateKey as never),
+			rating: item.rating,
+		}));
 
 const half = Math.ceil(items.length / 2);
 const row1 = items.slice(0, half);
 const row2 = items.slice(half);
+const reviewCount = site?.googleReviewCount ?? Number(t('testimonials.reviewCount').replace(/\D/g, '')) ?? 0;
+const ratingLabel = site ? site.googleRating.toFixed(1).replace('.', ',') : t('testimonials.rating');
 ---
 
 <section class="py-24 lg:py-32 bg-deb-white overflow-hidden" aria-labelledby="testimonials-heading">
@@ -35,7 +51,7 @@ const row2 = items.slice(half);
 				id="testimonials-heading"
 				class="text-3xl sm:text-4xl lg:text-5xl xl:text-6xl font-bold tracking-tight mb-8 leading-[1.1] text-deb-dark"
 			>
-				{t('testimonials.title')}
+				{home?.testimonialsTitle ?? t('testimonials.title')}
 			</h2>
 
 			<div class="inline-flex flex-col sm:flex-row items-center gap-4 sm:gap-6 px-6 py-4 bg-deb-cream rounded-2xl border border-deb-light-gray/60">
@@ -44,16 +60,16 @@ const row2 = items.slice(half);
 				<div class="flex flex-col items-center sm:items-start gap-1">
 					<div class="flex items-center gap-2">
 						<span class="text-2xl font-bold text-deb-dark leading-none">
-							{t('testimonials.rating')}
+							{ratingLabel}
 						</span>
-						<StarRating rating={5} size={16} />
+						<StarRating rating={site?.googleRating ?? 5} size={16} />
 					</div>
 					<span class="text-xs text-deb-gray-light">
-						{t('testimonials.reviewCount')}
+						{reviewCount} {lang === 'fr' ? 'avis' : 'reseñas'}
 					</span>
 				</div>
 				<a
-					href="https://www.google.com/maps"
+					href={site?.googleMapsUrl || 'https://www.google.com/maps'}
 					target="_blank"
 					rel="noopener noreferrer"
 					class="inline-flex items-center gap-2 text-sm font-medium text-deb-dark hover:text-deb-gold-dark transition-colors group"

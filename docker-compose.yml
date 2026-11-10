@@ -1,0 +1,149 @@
+name: deb-landing
+
+services:
+  postgres:
+    image: postgres:16-alpine
+    restart: unless-stopped
+    security_opt:
+      - no-new-privileges:true
+    logging:
+      driver: json-file
+      options:
+        max-size: "10m"
+        max-file: "3"
+    environment:
+      POSTGRES_DB: ${POSTGRES_DB:-deb_cms}
+      POSTGRES_USER: ${POSTGRES_USER:-deb}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:-deb_dev_password}
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    ports:
+      - "${POSTGRES_PORT:-5432}:5432"
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U ${POSTGRES_USER:-deb} -d ${POSTGRES_DB:-deb_cms}"]
+      interval: 5s
+      timeout: 5s
+      retries: 20
+
+  cms:
+    image: deb-landing-cms:dev
+    init: true
+    security_opt:
+      - no-new-privileges:true
+    logging:
+      driver: json-file
+      options:
+        max-size: "10m"
+        max-file: "3"
+    build:
+      context: ./cms
+      target: development
+    restart: unless-stopped
+    environment:
+      NODE_ENV: development
+      HOST: 0.0.0.0
+      PORT: 1337
+      PUBLIC_CMS_URL: ${PUBLIC_CMS_URL:-}
+      PROXY: "false"
+      STRAPI_TELEMETRY_DISABLED: "true"
+      UPLOAD_SIZE_LIMIT: ${UPLOAD_SIZE_LIMIT:-52428800}
+      DATABASE_CLIENT: postgres
+      DATABASE_HOST: postgres
+      DATABASE_PORT: 5432
+      DATABASE_NAME: ${POSTGRES_DB:-deb_cms}
+      DATABASE_USERNAME: ${POSTGRES_USER:-deb}
+      DATABASE_PASSWORD: ${POSTGRES_PASSWORD:-deb_dev_password}
+      DATABASE_SSL: "false"
+      APP_KEYS: ${APP_KEYS}
+      API_TOKEN_SALT: ${API_TOKEN_SALT}
+      ADMIN_JWT_SECRET: ${ADMIN_JWT_SECRET}
+      TRANSFER_TOKEN_SALT: ${TRANSFER_TOKEN_SALT}
+      JWT_SECRET: ${JWT_SECRET}
+      ENCRYPTION_KEY: ${ENCRYPTION_KEY}
+      CORS_ORIGINS: http://localhost:${WEB_PORT:-4400},http://127.0.0.1:${WEB_PORT:-4400}
+      SEED_ON_BOOT: ${SEED_ON_BOOT:-true}
+      SEED_ASSETS_DIR: /seed/assets
+      AWS_ENDPOINT: ${AWS_ENDPOINT:-}
+      AWS_REGION: ${AWS_REGION:-auto}
+      AWS_BUCKET: ${AWS_BUCKET:-}
+      AWS_ACCESS_KEY_ID: ${AWS_ACCESS_KEY_ID:-}
+      AWS_ACCESS_SECRET: ${AWS_ACCESS_SECRET:-}
+      AWS_PUBLIC_URL: ${AWS_PUBLIC_URL:-}
+      AWS_FORCE_PATH_STYLE: ${AWS_FORCE_PATH_STYLE:-true}
+      AWS_ROOT_PATH: ${AWS_ROOT_PATH:-}
+    volumes:
+      - ./cms:/app
+      - cms_node_modules:/app/node_modules
+      - ./public:/seed/assets:ro
+    ports:
+      - "${CMS_PORT:-1337}:1337"
+    depends_on:
+      postgres:
+        condition: service_healthy
+    healthcheck:
+      test:
+        [
+          "CMD",
+          "node",
+          "-e",
+          "fetch('http://127.0.0.1:1337/_health').then(r=>process.exit(r.ok?0:1)).catch(()=>process.exit(1))",
+        ]
+      interval: 10s
+      timeout: 5s
+      retries: 30
+      start_period: 60s
+
+  web:
+    image: deb-landing-web:dev
+    init: true
+    security_opt:
+      - no-new-privileges:true
+    logging:
+      driver: json-file
+      options:
+        max-size: "10m"
+        max-file: "3"
+    build:
+      context: .
+      target: development
+    restart: unless-stopped
+    environment:
+      NODE_ENV: development
+      HOST: 0.0.0.0
+      PORT: 4321
+      CMS_URL: http://cms:1337
+      CMS_PUBLIC_URL: ${CMS_PUBLIC_URL:-http://localhost:1337}
+      CMS_API_TOKEN: ${CMS_API_TOKEN:-}
+      CMS_CACHE_TTL_MS: ${CMS_CACHE_TTL_MS:-300000}
+      CMS_WEBHOOK_SECRET: ${CMS_WEBHOOK_SECRET:-}
+      RATE_LIMIT_CONTACT: ${RATE_LIMIT_CONTACT:-5}
+      RATE_LIMIT_CONTACT_WINDOW_MS: ${RATE_LIMIT_CONTACT_WINDOW_MS:-600000}
+      RATE_LIMIT_WEBHOOK: ${RATE_LIMIT_WEBHOOK:-60}
+      RATE_LIMIT_WEBHOOK_WINDOW_MS: ${RATE_LIMIT_WEBHOOK_WINDOW_MS:-60000}
+      RESEND_API_KEY: ${RESEND_API_KEY:-}
+      CONTACT_TO_EMAIL: ${CONTACT_TO_EMAIL:-}
+      CONTACT_FROM_EMAIL: ${CONTACT_FROM_EMAIL:-}
+    volumes:
+      - .:/app
+      - web_node_modules:/app/node_modules
+    ports:
+      - "${WEB_PORT:-4400}:4321"
+    depends_on:
+      - cms
+    healthcheck:
+      test:
+        [
+          "CMD",
+          "node",
+          "-e",
+          "fetch('http://127.0.0.1:4321/api/health').then(r=>process.exit(r.ok?0:1)).catch(()=>process.exit(1))",
+        ]
+      interval: 15s
+      timeout: 5s
+      retries: 10
+      start_period: 30s
+
+volumes:
+  postgres_data:
+  cms_node_modules:
+  web_node_modules:

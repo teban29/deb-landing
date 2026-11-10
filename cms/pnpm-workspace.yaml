@@ -1,0 +1,13 @@
+packages:
+  - '.'
+
+minimumReleaseAge: 0
+
+allowBuilds:
+  esbuild: true
+  sharp: true
+  '@swc/core': true
+  bcrypt: true
+  core-js-pure: true
+  '@parcel/watcher': true
+  better-sqlite3: true

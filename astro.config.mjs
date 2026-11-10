@@ -5,7 +5,12 @@ import node from '@astrojs/node';
 export default defineConfig({
 	site: 'https://deb-tout.com',
 	vite: {
-		plugins: [tailwindcss()]
+		plugins: [tailwindcss()],
+		server: {
+			watch: {
+				ignored: ['**/cms/**', '**/dist/**', '**/.astro/**'],
+			},
+		},
 	},
 	output: 'server',
 	adapter: node({ mode: 'standalone' }),

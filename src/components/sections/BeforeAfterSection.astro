@@ -3,18 +3,38 @@ import SectionHeader from '../ui/SectionHeader.astro';
 import BeforeAfterSlider from '../ui/BeforeAfterSlider.astro';
 import { getLangFromUrl, useTranslations } from '../../i18n/utils';
 import { beforeAfterProjects } from '../../data/beforeAfterProjects';
+import { getBeforeAfter, getHomePage, type Lang } from '../../lib/cms';
 
-const lang = getLangFromUrl(Astro.url);
+const lang = getLangFromUrl(Astro.url) as Lang;
 const t = useTranslations(lang);
-const projects = beforeAfterProjects;
+
+const [cmsProjects, home] = await Promise.all([getBeforeAfter(lang), getHomePage(lang)]);
+
+const projects = cmsProjects.length
+	? cmsProjects.map((project) => ({
+			id: project.id,
+			title: project.title,
+			before: project.before,
+			after: project.after,
+			beforeVideo: project.beforeVideo,
+			afterVideo: project.afterVideo,
+		}))
+	: beforeAfterProjects.map((project) => ({
+			id: project.id,
+			title: t(project.titleKey),
+			before: project.before,
+			after: project.after,
+			beforeVideo: project.beforeVideo,
+			afterVideo: project.afterVideo,
+		}));
 ---
 
 <section class="py-24 lg:py-32 bg-deb-white">
 	<div class="max-w-7xl mx-auto px-6 lg:px-8">
 		<SectionHeader
 			eyebrow={t('beforeAfter.title')}
-			title={lang === 'fr' ? 'La transformation en un coup d\'œil' : 'La transformación de un vistazo'}
-			description={t('beforeAfter.subtitle')}
+			title={home?.beforeAfterTitle ?? (lang === 'fr' ? 'La transformation en un coup d\'œil' : 'La transformación de un vistazo')}
+			description={home?.beforeAfterDescription ?? t('beforeAfter.subtitle')}
 		/>
 
 		<div class="mt-16 max-w-5xl mx-auto space-y-16">
@@ -23,7 +43,7 @@ const projects = beforeAfterProjects;
 					<BeforeAfterSlider
 						before={project.before}
 						after={project.after}
-						label={t(project.titleKey)}
+						label={project.title}
 						beforeVideo={project.beforeVideo}
 						afterVideo={project.afterVideo}
 					/>

@@ -1,0 +1,117 @@
+{
+	"kind": "collectionType",
+	"collectionName": "before_afters",
+	"info": {
+		"singularName": "before-after",
+		"pluralName": "before-afters",
+		"displayName": "Antes / Después",
+		"description": "Comparativas de transformación"
+	},
+	"options": {
+		"draftAndPublish": true
+	},
+	"pluginOptions": {
+		"i18n": {
+			"localized": true
+		}
+	},
+	"attributes": {
+		"title": {
+			"type": "string",
+			"required": true,
+			"pluginOptions": {
+				"i18n": {
+					"localized": true
+				}
+			}
+		},
+		"category": {
+			"type": "enumeration",
+			"enum": [
+				"electricite",
+				"plomberie",
+				"carrelage",
+				"parquet",
+				"peinture",
+				"poncage",
+				"autre"
+			],
+			"default": "peinture",
+			"pluginOptions": {
+				"i18n": {
+					"localized": false
+				}
+			}
+		},
+		"beforeImage": {
+			"type": "media",
+			"multiple": false,
+			"required": false,
+			"allowedTypes": [
+				"images"
+			],
+			"pluginOptions": {
+				"i18n": {
+					"localized": false
+				}
+			}
+		},
+		"afterImage": {
+			"type": "media",
+			"multiple": false,
+			"required": false,
+			"allowedTypes": [
+				"images"
+			],
+			"pluginOptions": {
+				"i18n": {
+					"localized": false
+				}
+			}
+		},
+		"beforeVideo": {
+			"type": "media",
+			"multiple": false,
+			"required": false,
+			"allowedTypes": [
+				"videos"
+			],
+			"pluginOptions": {
+				"i18n": {
+					"localized": false
+				}
+			}
+		},
+		"afterVideo": {
+			"type": "media",
+			"multiple": false,
+			"required": false,
+			"allowedTypes": [
+				"videos"
+			],
+			"pluginOptions": {
+				"i18n": {
+					"localized": false
+				}
+			}
+		},
+		"aspectRatio": {
+			"type": "decimal",
+			"default": 1,
+			"pluginOptions": {
+				"i18n": {
+					"localized": false
+				}
+			}
+		},
+		"order": {
+			"type": "integer",
+			"default": 0,
+			"pluginOptions": {
+				"i18n": {
+					"localized": false
+				}
+			}
+		}
+	}
+}

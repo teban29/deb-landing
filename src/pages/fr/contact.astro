@@ -1,19 +1,24 @@
 ---
 import Layout from '../../layouts/Layout.astro';
 import { getLangFromUrl, useTranslations } from '../../i18n/utils';
+import { getAllServices, getSiteSettings, type Lang } from '../../lib/cms';
 
-const lang = getLangFromUrl(Astro.url);
+const lang = getLangFromUrl(Astro.url) as Lang;
 const t = useTranslations(lang);
+const [site, cmsServices] = await Promise.all([getSiteSettings(lang), getAllServices(lang)]);
 
+const fallbackServices = ['electricite', 'plomberie', 'carrelage', 'parquet', 'peinture', 'poncage'];
 const services = [
 	{ value: '', label: t('contact.form.service.select') },
-	{ value: 'electricite', label: t('service.electricite') },
-	{ value: 'plomberie', label: t('service.plomberie') },
-	{ value: 'carrelage', label: t('service.carrelage') },
-	{ value: 'parquet', label: t('service.parquet') },
-	{ value: 'peinture', label: t('service.peinture') },
-	{ value: 'poncage', label: t('service.poncage') },
+	...(cmsServices.length
+		? cmsServices.map((service) => ({ value: service.slug, label: service.name }))
+		: fallbackServices.map((slug) => ({ value: slug, label: t(`service.${slug}`) }))),
 ];
+
+const phone = site?.phone || '+33 07 67 59 75 08';
+const email = site?.email || 'professionnels.renovation@gmail.com';
+const hours = site?.hours || t('contact.info.hoursValue');
+const whatsapp = site?.whatsapp || '330767597508';
 ---
 
 <Layout title={t('contact.title')}>
@@ -41,6 +46,10 @@ const services = [
 				<div class="bg-deb-white rounded-2xl p-8 lg:p-10 border border-deb-light-gray/50">
 					<form class="space-y-6" action="/api/contact" method="POST" data-contact-form>
 						<input type="hidden" name="lang" value="fr" />
+						<div class="hidden" aria-hidden="true">
+							<label for="website">Website</label>
+							<input type="text" id="website" name="website" tabindex="-1" autocomplete="off" />
+						</div>
 						<div class="grid grid-cols-1 sm:grid-cols-2 gap-6">
 							<div>
 								<label for="name" class="block text-sm font-medium text-deb-dark mb-2">{t('contact.form.name')} *</label>
@@ -128,7 +137,7 @@ const services = [
 								</div>
 								<div>
 									<p class="text-sm text-deb-gray mb-1">{t('contact.info.phone')}</p>
-									<p class="text-deb-dark font-medium">+33 07 67 59 75 08</p>
+									<p class="text-deb-dark font-medium">{phone}</p>
 								</div>
 							</li>
 							
@@ -140,7 +149,7 @@ const services = [
 								</div>
 								<div>
 									<p class="text-sm text-deb-gray mb-1">{t('contact.info.email')}</p>
-									<p class="text-deb-dark font-medium break-words">professionnels.renovation@gmail.com</p>
+									<p class="text-deb-dark font-medium break-words">{email}</p>
 								</div>
 							</li>
 							
@@ -152,7 +161,7 @@ const services = [
 								</div>
 								<div>
 									<p class="text-sm text-deb-gray mb-1">{t('contact.info.hours')}</p>
-									<p class="text-deb-dark font-medium">{t('contact.info.hoursValue')}</p>
+									<p class="text-deb-dark font-medium">{hours}</p>
 								</div>
 							</li>
 						</ul>
@@ -170,7 +179,7 @@ const services = [
 								<h3 class="text-lg font-semibold text-deb-dark mb-2">{t('contact.whatsapp.title')}</h3>
 								<p class="text-deb-gray text-sm mb-4">{t('contact.whatsapp.desc')}</p>
 								<a 
-									href={`https://wa.me/330767597508?text=${encodeURIComponent(t('contact.whatsapp.message'))}`}
+									href={`https://wa.me/${whatsapp}?text=${encodeURIComponent(t('contact.whatsapp.message'))}`}
 									target="_blank"
 									rel="noopener noreferrer"
 									class="inline-flex items-center px-6 py-3 bg-green-500 text-white font-medium rounded-lg hover:bg-green-600 transition-all duration-300 break-words text-center"

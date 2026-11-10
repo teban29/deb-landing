@@ -1,0 +1,18 @@
+{
+	"collectionName": "components_shared_steps",
+	"info": {
+		"displayName": "Paso",
+		"icon": "list",
+		"description": "Paso de un proceso"
+	},
+	"options": {},
+	"attributes": {
+		"title": {
+			"type": "string",
+			"required": true
+		},
+		"description": {
+			"type": "text"
+		}
+	}
+}

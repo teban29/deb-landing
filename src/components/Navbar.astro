@@ -1,9 +1,12 @@
 ---
 import LanguagePicker from './ui/LanguagePicker.astro';
 import { getLangFromUrl, useTranslations } from '../i18n/utils';
+import { getSiteSettings, type Lang } from '../lib/cms';
 
-const lang = getLangFromUrl(Astro.url);
+const lang = getLangFromUrl(Astro.url) as Lang;
 const t = useTranslations(lang);
+const site = await getSiteSettings(lang);
+const logo = site?.logo ?? '/images/logo.png';
 
 const navLinks = [
 	{ href: `/${lang}/`, label: t('nav.home') },
@@ -24,7 +27,7 @@ const navLinks = [
 			<a href={`/${lang}/`} class="flex items-center gap-3 group z-50 relative" aria-label="D.E.B TOUT CORPS - Home">
 				<div class="relative h-16 lg:h-20 w-auto transition-transform duration-500 group-hover:scale-105">
 					<img 
-						src="/images/logo.png" 
+						src={logo} 
 						alt="D.E.B TOUT CORPS" 
 						class="h-full w-auto object-contain"
 						width="260"

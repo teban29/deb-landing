@@ -1,0 +1,159 @@
+{
+	"kind": "singleType",
+	"collectionName": "site_settings",
+	"info": {
+		"singularName": "site-setting",
+		"pluralName": "site-settings",
+		"displayName": "Datos del negocio",
+		"description": "Contacto, redes sociales y datos globales del sitio"
+	},
+	"options": {
+		"draftAndPublish": true
+	},
+	"pluginOptions": {
+		"i18n": {
+			"localized": true
+		}
+	},
+	"attributes": {
+		"companyName": {
+			"type": "string",
+			"required": true,
+			"pluginOptions": {
+				"i18n": {
+					"localized": true
+				}
+			}
+		},
+		"tagline": {
+			"type": "string",
+			"pluginOptions": {
+				"i18n": {
+					"localized": true
+				}
+			}
+		},
+		"description": {
+			"type": "text",
+			"pluginOptions": {
+				"i18n": {
+					"localized": true
+				}
+			}
+		},
+		"phone": {
+			"type": "string",
+			"pluginOptions": {
+				"i18n": {
+					"localized": true
+				}
+			}
+		},
+		"email": {
+			"type": "email",
+			"pluginOptions": {
+				"i18n": {
+					"localized": true
+				}
+			}
+		},
+		"whatsapp": {
+			"type": "string",
+			"description": "Número internacional sin + ni espacios, por ejemplo 330767597508",
+			"pluginOptions": {
+				"i18n": {
+					"localized": true
+				}
+			}
+		},
+		"address": {
+			"type": "string",
+			"pluginOptions": {
+				"i18n": {
+					"localized": true
+				}
+			}
+		},
+		"hours": {
+			"type": "string",
+			"pluginOptions": {
+				"i18n": {
+					"localized": true
+				}
+			}
+		},
+		"googleMapsUrl": {
+			"type": "string",
+			"pluginOptions": {
+				"i18n": {
+					"localized": true
+				}
+			}
+		},
+		"googleRating": {
+			"type": "decimal",
+			"default": 5,
+			"pluginOptions": {
+				"i18n": {
+					"localized": false
+				}
+			}
+		},
+		"googleReviewCount": {
+			"type": "integer",
+			"default": 0,
+			"pluginOptions": {
+				"i18n": {
+					"localized": false
+				}
+			}
+		},
+		"logo": {
+			"type": "media",
+			"multiple": false,
+			"required": false,
+			"allowedTypes": [
+				"images"
+			],
+			"pluginOptions": {
+				"i18n": {
+					"localized": false
+				}
+			}
+		},
+		"ogImage": {
+			"type": "media",
+			"multiple": false,
+			"required": false,
+			"allowedTypes": [
+				"images"
+			],
+			"pluginOptions": {
+				"i18n": {
+					"localized": false
+				}
+			}
+		},
+		"socialLinks": {
+			"type": "component",
+			"repeatable": true,
+			"component": "shared.social-link"
+		},
+		"seoTitle": {
+			"type": "string",
+			"pluginOptions": {
+				"i18n": {
+					"localized": true
+				}
+			}
+		},
+		"seoDescription": {
+			"type": "text",
+			"pluginOptions": {
+				"i18n": {
+					"localized": true
+				}
+			}
+		}
+	}
+}

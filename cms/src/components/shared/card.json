@@ -1,0 +1,18 @@
+{
+	"collectionName": "components_shared_cards",
+	"info": {
+		"displayName": "Tarjeta",
+		"icon": "layout",
+		"description": "Tarjeta con título y descripción"
+	},
+	"options": {},
+	"attributes": {
+		"title": {
+			"type": "string",
+			"required": true
+		},
+		"description": {
+			"type": "text"
+		}
+	}
+}

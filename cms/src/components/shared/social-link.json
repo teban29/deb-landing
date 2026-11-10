@@ -1,0 +1,20 @@
+{
+	"collectionName": "components_shared_social_links",
+	"info": {
+		"displayName": "Red social",
+		"icon": "link",
+		"description": "Enlace a una red social"
+	},
+	"options": {},
+	"attributes": {
+		"platform": {
+			"type": "enumeration",
+			"enum": ["facebook", "instagram", "tiktok", "linkedin", "youtube", "google"],
+			"required": true
+		},
+		"url": {
+			"type": "string",
+			"required": true
+		}
+	}
+}
